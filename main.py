@@ -2,16 +2,16 @@
 from enum import Enum
 
 # game imports
-from game.series_manager import SeriesManager, GameMode
+from src.game.series_manager import SeriesManager, GameMode
 
 # interface imports
-from simple_terminal_viewer import enter_simple_mode
+from src.interfaces.simple_terminal.simple_terminal_viewer import enter_simple_mode
 
 
 
 if __name__ == "__main__":
 
-    seriesmanager = SeriesManager("scshafe", "opponent")
+    seriesmanager = SeriesManager("scshafe", "opponent", GameMode.SIMPLE)
 
     game_mode = GameMode.SIMPLE
 
@@ -29,7 +29,8 @@ if __name__ == "__main__":
             enter_ncurses_mode(seriesmanager)
         
         if (game_mode == GameMode.GTK_GUI):
-
+            print("Sorry GTK not yet implemented")
+            game_mode = GameMode.SIMPLE
             # start GUI
         
         input("next line")
