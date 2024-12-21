@@ -1,4 +1,4 @@
-
+# 
 from src.game.series_manager import SeriesManager
 
 menu_string = """[M] to Open Menu"""
@@ -37,19 +37,26 @@ def run_game_end_input(seriesmanager):
 def run_match_end_input(seriesmanager):
     return
 
+
+
 def enter_simple_mode(seriesmanager):
 
     while (True):
+
+        print("Printing Series Manager current state")
+        print(seriesmanager.current_state)
         current_state = seriesmanager.current_state
 
-        match current_state:
-            case SeriesManager.menu_screen:
-                run_menu_screen_input(seriesmanager)
-            case SeriesManager.p1_turn:
-                run_p1_turn(seriesmanager)
-            case SeriesManager.p2_turn:
-                print("p2 turn")
-            case SeriesManager.game_end:
-                print("game end")
-            case SeriesManager.match_end:
-                print("match end")
+        
+
+        # match current_state:
+        #     case SeriesManager.menu_screen:
+        #         run_menu_screen_input(seriesmanager)
+        #     case SeriesManager.p1_turn:
+        #         run_p1_turn(seriesmanager)
+        #     case SeriesManager.p2_turn:
+        #         print("p2 turn")
+        #     case SeriesManager.game_end:
+        #         print("game end")
+        #     case SeriesManager.match_end:
+        #         print("match end")
