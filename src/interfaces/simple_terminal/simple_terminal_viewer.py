@@ -45,16 +45,18 @@ def valid_input_for_player_turn(command_input):
 
     row = int(command_input[0])
     col = int(command_input[2])
-    if row <= 3 and row >= 1 and col <= 3 and col >= 1:
+    if row <= 2 and row >= 0 and col <= 2 and col >= 0:
         return True
     return False
 
 
-def run_p1_turn(seriesmanager):
-    command_input = input(f"It's {seriesmanager.p1_name}'s turn:")
+def run_player_turn(seriesmanager, player_turn):
+    seriesmanager.print_board()
+    player_name = seriesmanager.current_player()
+    command_input = input(f"It's {player_name}'s turn:")
 
     if valid_input_for_player_turn(command_input):
-        seriesmanager.p1_move(command_input)
+        seriesmanager.p_move(command_input)
     
     elif command_input == "M":
         seriesmanager.send("open_menu")
@@ -79,9 +81,9 @@ def enter_simple_mode(seriesmanager):
             case SeriesManager.menu_screen:
                 run_menu_screen_input(seriesmanager)
             case SeriesManager.p1_turn:
-                run_p1_turn(seriesmanager)
+                run_player_turn(seriesmanager, 1)
             case SeriesManager.p2_turn:
-                print("p2 turn")
+                run_player_turn(seriesmanager, 2)
             case SeriesManager.game_end:
                 print("game end")
             case SeriesManager.match_end:
