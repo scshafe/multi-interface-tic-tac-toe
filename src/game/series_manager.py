@@ -19,6 +19,7 @@ class InterfaceMode(Enum):
 
 class SeriesManager(StateMachine):
     "A managing class for a series of individual games"
+
     menu_screen = State(initial=True)
     p1_turn = State()
     p2_turn = State()
@@ -36,6 +37,7 @@ class SeriesManager(StateMachine):
     
 
     def __init__(self, p1_name="player 1", p2_name="player 2", interface_mode=InterfaceMode.SIMPLE):
+        self.board = [[0 for i in range(3)] for j in range(3)]
         self.p1_name = p1_name
         self.p2_name = p2_name
         self.p1_score = 0
@@ -44,13 +46,32 @@ class SeriesManager(StateMachine):
         # StateMachine.__init__(self, menu_screen()
         super(SeriesManager, self).__init__()
     
-    def winning_move(self):
-        return True
+    def winning_move(self, move_input):
+        return False
     
-    def valid_move(self):
-        return True
+    def valid_move(self, move_input):
+        row = int(move_input[0])
+        col = int(move_input[2])
 
-    def match_winning_move(self):
-        return True
+        if self.board[row][col] == 0:
+            return True
+        return False
+
+    def match_winning_move(self, move_input):
+        return False
+
+    
+    def before_p1_move(self, move_input):
+        row = int(move_input[0])
+        col = int(move_input[2])
+
+        if self.board[row][col] == 0:
+            print(f"{self.p1_name} moved!")
+            self.board[row][col] = 'X'
+            return True
+        return False
+
+    
+        
 
 

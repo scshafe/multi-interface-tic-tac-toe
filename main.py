@@ -15,24 +15,21 @@ if __name__ == "__main__":
     seriesmanager = SeriesManager()
     print(seriesmanager.current_state)
 
-    input("here")
-
 
     # This is the home MENU loop
-    while (interface_mode != InterfaceMode.QUIT_GAME):
+    while (seriesmanager.interface_mode != InterfaceMode.QUIT_GAME):
 
-        if (interface_mode == InterfaceMode.SIMPLE):
+        if (seriesmanager.interface_mode == InterfaceMode.SIMPLE):
             # Await command
             enter_simple_mode(seriesmanager)
 
-        if (interface_mode == InterfaceMode.NCURSES):
+        if (seriesmanager.interface_mode == InterfaceMode.NCURSES):
             print("Ncurses Game Mode")
 
             enter_ncurses_mode(seriesmanager)
         
-        if (interface_mode == InterfaceMode.GTK_GUI):
+        if (seriesmanager.interface_mode == InterfaceMode.GTK_GUI):
             print("Sorry GTK not yet implemented")
             interface_mode = InterfaceMode.SIMPLE
             # start GUI
         
-        input("next line")
