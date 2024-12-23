@@ -9,19 +9,7 @@ class InterfaceMode(Enum):
     GTK_GUI = 4
 
 
-board_string = """
- {a} | {b} | {c}
-   |   |
------------
-   |   |
- {d} | {e} | {f}
-   |   |
------------
-   |   |
- {g} | {h} | {i}
 
-
-"""
 
 ### State Machine:
 # Menu
@@ -93,9 +81,7 @@ class SeriesManager(StateMachine):
         return False
 
 
-    def print_board(self):
-        s = self.board
-        print(board_string.format(a=s[0][0], b=s[0][1], c=s[0][2], d=s[1][0], e=s[1][1], f=s[1][2], g=s[2][0], h=s[2][1], i=s[2][2]))
+    
     
         
 

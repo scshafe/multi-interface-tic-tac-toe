@@ -25,6 +25,23 @@ def error_input_message():
     print("Sorry, your input is either invalid or not yet implemented. Please try again.")
 
 
+board_string = """
+ {a} | {b} | {c}
+   |   |
+-----------
+   |   |
+ {d} | {e} | {f}
+   |   |
+-----------
+   |   |
+ {g} | {h} | {i}
+
+
+"""
+
+def print_board(series_manager):
+    s = series_manager.board
+    print(board_string.format(a=s[0][0], b=s[0][1], c=s[0][2], d=s[1][0], e=s[1][1], f=s[1][2], g=s[2][0], h=s[2][1], i=s[2][2]))
 
 
 def run_menu_screen_input(seriesmanager):
@@ -51,7 +68,7 @@ def valid_input_for_player_turn(command_input):
 
 
 def run_player_turn(seriesmanager, player_turn):
-    seriesmanager.print_board()
+    print_board(seriesmanager)
     player_name = seriesmanager.current_player()
     command_input = input(f"It's {player_name}'s turn:")
 
