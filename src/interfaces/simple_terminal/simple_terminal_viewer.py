@@ -61,8 +61,6 @@ def run_player_turn(seriesmanager, player_turn):
     elif command_input == "M":
         seriesmanager.send("open_menu")
 
-def run_o_turn(seriesmanager):
-    return
 
 def run_game_end_input(seriesmanager):
     return
