@@ -10,7 +10,6 @@ class InterfaceMode(Enum):
 
 
 
-
 ### State Machine:
 # Menu
 # X-turn
@@ -23,11 +22,14 @@ class SeriesManager(StateMachine):
     "A managing class for a series of individual games"
 
     menu_screen = State(initial=True)
+    change_name = State()
     p1_turn = State()
     p2_turn = State()
     game_end = State()
     match_end = State()
 
+    change_names = menu_screen.to(change_name)
+    change_new_name = change_name.to(menu_screen)
     play_game = menu_screen.to(p1_turn)
 
     p_move = p1_turn.to(match_end, cond="match_winning_move") | p1_turn.to(game_end, cond="winning_move") | p1_turn.to(p2_turn, cond="valid_move") | p1_turn.to(p1_turn) | p2_turn.to(match_end, cond="match_winning_move") | p2_turn.to(game_end, cond="winning_move") | p2_turn.to(p1_turn, cond="valid_move") | p2_turn.to(p2_turn)
@@ -80,6 +82,16 @@ class SeriesManager(StateMachine):
             return True
         return False
 
+    def before_change_new_name(self, player_num, new_player_name):
+        if player_num != '1' and player_num != '2':
+            print("Error: player number must be 1 or 2")
+            return False
+        
+        if player_num == '1':
+            self.p1_name = new_player_name
+        else:
+            self.p2_name = new_player_name
+        return True
 
     
     

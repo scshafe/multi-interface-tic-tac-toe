@@ -3,17 +3,17 @@ from src.game.series_manager import SeriesManager
 
 menu_string = """[M] to Open Menu"""
 play_string = """[P] to Play Game"""
-change_p1_name_string = """[C1] to Change Player 1's name"""
-change_p2_name_string = """[C2] to Change Player 2's name"""
+change_p_name_string = """[C] to Change a player's name"""
+# change_p2_name_string = """[C2] to Change Player 2's name"""
 end_game_string = """[E] to Exit Match"""
 turn_string = """[Row,Col] to Make Move"""
 
 
 run_menu_screen_input_string = """Welcome to Tic-Tac-Toe!
 {play_string}
-{change_p1_name_string}
-{change_p2_name_string}
-""".format(play_string=play_string, change_p1_name_string=change_p1_name_string, change_p2_name_string=change_p2_name_string)
+{change_p_name_string}
+
+""".format(play_string=play_string, change_p_name_string=change_p_name_string)
 
 run_p1_turn_string = """
 {turn_string}
@@ -51,8 +51,19 @@ def run_menu_screen_input(seriesmanager):
         case "P":
             seriesmanager.play_game()
             print(seriesmanager.current_state)
+        case "C":
+            seriesmanager.change_names()
         case _:
             error_input_message()
+
+
+def change_name_screen(seriesmanager):
+    player_num = input("Which player would you like to change the name for? [1/2]")
+    new_name = input("New player name: ")
+
+    seriesmanager.change_new_name(player_num, new_name)
+
+
 
 def valid_input_for_player_turn(command_input):
     if len(command_input) != 3:
@@ -95,6 +106,8 @@ def enter_simple_mode(seriesmanager):
         match current_state:
             case SeriesManager.menu_screen:
                 run_menu_screen_input(seriesmanager)
+            case SeriesManager.change_name:
+                change_name_screen(seriesmanager)
             case SeriesManager.p1_turn:
                 run_player_turn(seriesmanager, 1)
             case SeriesManager.p2_turn:
