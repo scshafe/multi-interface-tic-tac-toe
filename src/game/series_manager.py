@@ -1,6 +1,7 @@
 # from ..game.gamestate import GameState
 from statemachine import StateMachine, State
 from enum import Enum
+from copy import deepcopy
 
 class InterfaceMode(Enum):
     QUIT_GAME = 1
@@ -19,16 +20,16 @@ class InterfaceMode(Enum):
 
 def board_contains_3_in_a_row(board):
     for row in range(3):
-        if board[row][0] == board[row][1] and board[row][1] == board[row][2]:
+        if board[row][0] == board[row][1] and board[row][1] == board[row][2] and board[row][0] != ' ':
             return True
     for col in range(3):
-        if board[0][col] == board[1][col] and board[1][col] == board[2][col]:
+        if board[0][col] == board[1][col] and board[1][col] == board[2][col] and board[0][col] != ' ':
             return True
     
     # diagonals
-    if board[0][0] == board[1][1] and board [1][1] == board[2][2]:
+    if board[0][0] == board[1][1] and board [1][1] == board[2][2] and board[1][1] != ' ':
         return True
-    if board[2][0] == board[1][1] and board [1][1] == board[0][2]:
+    if board[2][0] == board[1][1] and board [1][1] == board[0][2] and board[1][1] != ' ':
         return True
     return False
 
@@ -83,7 +84,8 @@ class SeriesManager(StateMachine):
         super(SeriesManager, self).__init__()
     
     def winning_move(self, move_input):
-        temp_board = self.board
+        print("winning_move() called")
+        temp_board = deepcopy(self.board)
         row = int(move_input[0])
         col = int(move_input[2])
         temp_board[row][col] = self.current_player_piece()
@@ -93,7 +95,8 @@ class SeriesManager(StateMachine):
         return False
     
     def valid_move(self, move_input):
-        print("valid_move called")
+        print("valid_move() called")
+        print(self.board)
         row = int(move_input[0])
         col = int(move_input[2])
 
@@ -104,11 +107,12 @@ class SeriesManager(StateMachine):
         return False
 
     def match_winning_move(self, move_input):
+        print("match_winning_move() called")
         return False
 
     
     def before_p_move(self, move_input):
-        print("before_p_move called")
+        print("before_p_move() called")
         row = int(move_input[0])
         col = int(move_input[2])
 

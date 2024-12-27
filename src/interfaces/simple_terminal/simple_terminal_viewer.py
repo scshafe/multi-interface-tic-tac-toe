@@ -91,6 +91,7 @@ def run_player_turn(seriesmanager, player_turn):
 
 
 def run_game_end_input(seriesmanager):
+    input("A player won the game, would you like to play the next round?")
     return
 
 def run_match_end_input(seriesmanager):
@@ -113,6 +114,6 @@ def enter_simple_mode(seriesmanager):
             case SeriesManager.p2_turn:
                 run_player_turn(seriesmanager, 2)
             case SeriesManager.game_end:
-                print("game end")
+                run_game_end_input(seriesmanager)
             case SeriesManager.match_end:
                 print("match end")
