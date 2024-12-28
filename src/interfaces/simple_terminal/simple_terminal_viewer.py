@@ -100,7 +100,11 @@ def run_game_end_input(seriesmanager):
     return
 
 def run_match_end_input(seriesmanager):
-    return
+    print("{} won the match. The final score is:\n\n".format(seriesmanager.most_recent_game_winner()))
+    print("{}: {}".format(seriesmanager.p1_name, seriesmanager.p1_score))
+    print("{}: {}".format(seriesmanager.p2_name, seriesmanager.p2_score))
+    input("Press enter to return to home menu:")
+    seriesmanager.play_another_match()
 
 
 
@@ -121,4 +125,4 @@ def enter_simple_mode(seriesmanager):
             case SeriesManager.game_end:
                 run_game_end_input(seriesmanager)
             case SeriesManager.match_end:
-                print("match end")
+                run_match_end_input(seriesmanager)

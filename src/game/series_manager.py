@@ -88,6 +88,7 @@ class SeriesManager(StateMachine):
         self.p2_name = p2_name
         self.p1_score = 0
         self.p2_score = 0
+        self.play_to_total = 2
         self.interface_mode = interface_mode
         self.game_log = list()
         # StateMachine.__init__(self, menu_screen()
@@ -135,7 +136,21 @@ class SeriesManager(StateMachine):
 
     def match_winning_move(self, move_input):
         print("match_winning_move() called")
+        if self.current_state == SeriesManager.p1_turn and self.p1_score + 1 == self.play_to_total:
+            return True
+        if self.current_state == SeriesManager.p2_turn and self.p2_score + 1 == self.play_to_total:
+            return True
         return False
+
+    def on_enter_match_end(self):
+        print("on_enter_match_end() called")
+        temp_board = deepcopy(self.board)
+        if board_contains_3_in_a_row_for_piece(temp_board, 'X'):
+            self.p1_score += 1
+            self.game_log.append('X')
+        else:
+            self.p2_score += 1
+            self.game_log.append('O')
 
     
     def on_p_move(self, move_input):
