@@ -91,7 +91,12 @@ def run_player_turn(seriesmanager, player_turn):
 
 
 def run_game_end_input(seriesmanager):
-    input("A player won the game, would you like to play the next round?")
+    print("{} won the game. The score is now:\n\n".format(seriesmanager.most_recent_game_winner()))
+    print("{}: {}".format(seriesmanager.p1_name, seriesmanager.p1_score))
+    print("{}: {}".format(seriesmanager.p2_name, seriesmanager.p2_score))
+    input("\nReady to play the next round? [Y]")
+
+    seriesmanager.next_game()
     return
 
 def run_match_end_input(seriesmanager):

@@ -18,20 +18,25 @@ class InterfaceMode(Enum):
 # Game-end - the end of 1 game in a multi-game series
 # Match-end - the end of the full series
 
-def board_contains_3_in_a_row(board):
+def board_contains_3_in_a_row_for_piece(board, piece):
     for row in range(3):
-        if board[row][0] == board[row][1] and board[row][1] == board[row][2] and board[row][0] != ' ':
+        if board[row][0] == board[row][1] and board[row][1] == board[row][2] and board[row][0] == piece:
             return True
     for col in range(3):
-        if board[0][col] == board[1][col] and board[1][col] == board[2][col] and board[0][col] != ' ':
+        if board[0][col] == board[1][col] and board[1][col] == board[2][col] and board[0][col] == piece:
             return True
     
     # diagonals
-    if board[0][0] == board[1][1] and board [1][1] == board[2][2] and board[1][1] != ' ':
+    if board[0][0] == board[1][1] and board [1][1] == board[2][2] and board[1][1] == piece:
         return True
-    if board[2][0] == board[1][1] and board [1][1] == board[0][2] and board[1][1] != ' ':
+    if board[2][0] == board[1][1] and board [1][1] == board[0][2] and board[1][1] == piece:
         return True
     return False
+
+
+def board_contains_3_in_a_row(board):
+    return board_contains_3_in_a_row_for_piece(board, 'X') or board_contains_3_in_a_row_for_piece(board, 'O')
+
 
 
 def create_new_board():
@@ -63,6 +68,10 @@ class SeriesManager(StateMachine):
     open_menu = p1_turn.to(menu_screen) | \
                 p2_turn.to(menu_screen) | \
                 game_end.to(menu_screen)
+    
+    # add logic here to determine who should play first next game (in )
+    next_game = game_end.to(p1_turn, cond="p1_goes_first") | \
+                game_end.to(p2_turn)
 
     play_another_match = match_end.to(menu_screen)
 
@@ -80,6 +89,7 @@ class SeriesManager(StateMachine):
         self.p1_score = 0
         self.p2_score = 0
         self.interface_mode = interface_mode
+        self.game_log = list()
         # StateMachine.__init__(self, menu_screen()
         super(SeriesManager, self).__init__()
     
@@ -90,10 +100,27 @@ class SeriesManager(StateMachine):
         col = int(move_input[2])
         temp_board[row][col] = self.current_player_piece()
 
-        if board_contains_3_in_a_row(temp_board):
-            return True
-        return False
+        if not board_contains_3_in_a_row(temp_board):
+            return False
+        return True
     
+    def on_enter_game_end(self):
+        print("on_enter_game_end() called")
+        # a player did win
+        temp_board = deepcopy(self.board)
+        if board_contains_3_in_a_row_for_piece(temp_board, 'X'):
+            self.p1_score += 1
+            self.game_log.append('X')
+        else:
+            self.p2_score += 1
+            self.game_log.append('O')
+    
+    def on_exit_game_end(self):
+        self.board = create_new_board()
+    
+    def most_recent_game_winner(self):
+        return self.p1_name if self.game_log[-1] == 'X' else self.p2_name
+
     def valid_move(self, move_input):
         print("valid_move() called")
         print(self.board)
@@ -111,7 +138,7 @@ class SeriesManager(StateMachine):
         return False
 
     
-    def before_p_move(self, move_input):
+    def on_p_move(self, move_input):
         print("before_p_move() called")
         row = int(move_input[0])
         col = int(move_input[2])
@@ -124,7 +151,7 @@ class SeriesManager(StateMachine):
             return True
         return False
 
-    def before_change_new_name(self, player_num, new_player_name):
+    def on_change_new_name(self, player_num, new_player_name):
         if player_num != '1' and player_num != '2':
             print("Error: player number must be 1 or 2")
             return False
@@ -135,7 +162,8 @@ class SeriesManager(StateMachine):
             self.p2_name = new_player_name
         return True
 
-    
+    def p1_goes_first(self):
+        return True
     
         
 
