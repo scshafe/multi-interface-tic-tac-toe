@@ -1,5 +1,5 @@
 # 
-from src.game.series_manager import SeriesManager
+from src.game.series_manager import InterfaceMode, SeriesManager
 from src.interfaces.simple_terminal.simple_terminal_strings import *
 
 
@@ -15,11 +15,18 @@ def run_menu_screen_input(seriesmanager):
     match command_input:
         case "P":
             seriesmanager.play_game()
-            print(seriesmanager.current_state)
         case "C":
             seriesmanager.change_names()
+        case "I":
+            seriesmanager.change_interface()
         case _:
             error_input_message()
+
+def run_interface_screen(seriesmanager):
+    command_input = input(run_interface_screen_input_string)
+
+    # should error check here (or in seriesmanager?)
+    seriesmanager.interface_selected(command_input)
 
 
 def change_name_screen(seriesmanager):
@@ -75,12 +82,14 @@ def run_match_end_input(seriesmanager):
 
 def enter_simple_mode(seriesmanager):
 
-    while (True):
+    while (seriesmanager.interface_mode == InterfaceMode.SIMPLE):
+        
         current_state = seriesmanager.current_state
-
         match current_state:
             case SeriesManager.menu_screen:
                 run_menu_screen_input(seriesmanager)
+            case SeriesManager.interface_screen:
+                run_interface_screen(seriesmanager)
             case SeriesManager.change_name:
                 change_name_screen(seriesmanager)
             case SeriesManager.p1_turn:
