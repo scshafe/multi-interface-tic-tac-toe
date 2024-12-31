@@ -30,6 +30,23 @@ run_p1_turn_string = """
 """.format(turn_string=turn_string, menu_string=menu_string)
 
 
+
+def run_match_end_input_string(seriesmanager):
+    return """
+{match_winner} won the match. The final score is:
+
+{p1_name}: {p1_score}
+{p2_name}: {p2_score}
+
+Press [enter] to return to home menu.
+""".format(match_winner=seriesmanager.most_recent_game_winner(),
+          p1_name=seriesmanager.p1_name,
+          p1_score=seriesmanager.p1_score,
+          p2_name=seriesmanager.p2_name,
+          p2_score=seriesmanager.p2_score)
+
+
+
 def error_input_message():
     print("Sorry, your input is either invalid or not yet implemented. Please try again.")
 

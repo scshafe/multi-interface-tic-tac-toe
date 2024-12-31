@@ -72,10 +72,7 @@ def run_game_end_input(seriesmanager):
     return
 
 def run_match_end_input(seriesmanager):
-    print("{} won the match. The final score is:\n\n".format(seriesmanager.most_recent_game_winner()))
-    print("{}: {}".format(seriesmanager.p1_name, seriesmanager.p1_score))
-    print("{}: {}".format(seriesmanager.p2_name, seriesmanager.p2_score))
-    input("Press enter to return to home menu:")
+    input(run_match_end_input_string(seriesmanager))
     seriesmanager.play_another_match()
 
 
@@ -83,6 +80,7 @@ def run_match_end_input(seriesmanager):
 def enter_simple_mode(seriesmanager):
 
     while (seriesmanager.interface_mode == InterfaceMode.SIMPLE):
+        input(run_match_end_input_string(seriesmanager))
         
         current_state = seriesmanager.current_state
         match current_state:
