@@ -30,6 +30,22 @@ run_p1_turn_string = """
 """.format(turn_string=turn_string, menu_string=menu_string)
 
 
+def run_game_end_input_string(seriesmanager):
+  return """
+{match_winner} won the game. The score is:
+
+{p1_name}: {p1_score}
+{p2_name}: {p2_score}
+
+Series is first to {series_score}
+Press [enter] to begin next game.
+""".format(match_winner=seriesmanager.most_recent_game_winner(),
+          p1_name=seriesmanager.p1_name,
+          p1_score=seriesmanager.p1_score,
+          p2_name=seriesmanager.p2_name,
+          p2_score=seriesmanager.p2_score,
+          series_score=seriesmanager.play_to_total)
+
 
 def run_match_end_input_string(seriesmanager):
     return """
