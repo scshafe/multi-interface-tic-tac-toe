@@ -12,7 +12,7 @@ from src.interfaces.ncursesterminal.ncurses_terminal_viewer import enter_ncurses
 if __name__ == "__main__":
 
 
-    seriesmanager = SeriesManager("scshafe", "yeet", InterfaceMode.SIMPLE)
+    seriesmanager = SeriesManager("scshafe", "yeet", InterfaceMode.NCURSES)
 
     # This is the home MENU loop
     while (seriesmanager.interface_mode != InterfaceMode.QUIT_GAME):

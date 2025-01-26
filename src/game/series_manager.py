@@ -90,6 +90,8 @@ class SeriesManager(StateMachine):
         self.board = create_new_board()
     
     def most_recent_game_winner(self):
+        if len(self.game_log) == 0:
+            return ""
         return self.p1_name if self.game_log[-1] == 'X' else self.p2_name
 
     def valid_move(self, move_input):
