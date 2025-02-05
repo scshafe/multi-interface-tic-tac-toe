@@ -6,7 +6,7 @@ from src.game.series_manager import SeriesManager, InterfaceMode
 
 # interface imports
 from src.interfaces.simple_terminal.simple_terminal_viewer import enter_simple_mode
-from src.interfaces.ncursesterminal.ncurses_terminal_viewer import enter_ncurses_mode
+from src.interfaces.ncursesterminal.ncurses_terminal_viewer import enter_ncurses_mode_wrapper
 
 
 if __name__ == "__main__":
@@ -24,7 +24,7 @@ if __name__ == "__main__":
         if (seriesmanager.interface_mode == InterfaceMode.NCURSES):
             print("Ncurses Game Mode")
 
-            enter_ncurses_mode(seriesmanager)
+            enter_ncurses_mode_wrapper(seriesmanager)
         
         if (seriesmanager.interface_mode == InterfaceMode.GTK_GUI):
             print("Sorry GTK not yet implemented")
