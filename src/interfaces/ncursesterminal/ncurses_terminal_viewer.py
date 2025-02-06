@@ -8,7 +8,7 @@ import curses
 
 
 
-def enter_ncurses_mode(seriesmanager):
+def enter_ncurses_mode_wrapper(seriesmanager):
 
     # ~~~~~~~~~~~~~~~~~~~~ SETUP NCURSES MODE ~~~~~~~~~~~~~~~~~~~
 
@@ -34,7 +34,8 @@ def enter_ncurses_mode(seriesmanager):
 
     # ~~~~~~~~~~~~~~~~~~~~ MAIN EXECUTION LOOP ~~~~~~~~~~~~~~~~~~
 
-
+    # stdscr.addstr("curses mode activated")
+    # stdscr.refresh()
 
     # ~~~~~~~~~~~~~~~~~~~~ EXIT NCURSES MODE ~~~~~~~~~~~~~~~~~~~
     curses.nocbreak()
@@ -43,5 +44,5 @@ def enter_ncurses_mode(seriesmanager):
 
 
 
-def enter_ncurses_mode_wrapper(seriesmanager):
-    curses.wrapper(enter_ncurses_mode, seriesmanager)
+# def enter_ncurses_mode_wrapper(seriesmanager):
+#     curses.wrapper(enter_ncurses_mode, seriesmanager)
