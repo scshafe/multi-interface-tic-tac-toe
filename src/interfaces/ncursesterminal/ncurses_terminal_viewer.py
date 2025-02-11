@@ -1,6 +1,8 @@
 
 import curses
+from src.interfaces.ncursesterminal import ncurses_printer as cp # "Curse Printer"
 from src.game.series_manager import InterfaceMode, SeriesManager
+
 
 SQUARE_WIDTH_ROOT = 8
 SQUARE_HEIGHT_ROOT = 6
@@ -12,12 +14,17 @@ SQUARE_WIDTH = SQUARE_WIDTH_ROOT * MULTIPLIER
 SQUARE_HEIGHT = SQUARE_HEIGHT_ROOT * MULTIPLIER
 
 
-def run_menu_screen_input(seriesmanager, commandkey):
+def run_menu_screen_input(seriesmanager):
+    commandkey = cp.print_menu_screen(seriesmanager)
     match commandkey:
         case "P":
             seriesmanager.play_game()
+        case "C":
+            seriesmanager.play_game()
+        case "I":
+            seriesmanager.play_game()
         case _:
-            return
+            error_input_message()
 
 
 
@@ -36,6 +43,7 @@ def enter_ncurses_mode(stdscr, seriesmanager):
     # return special value such as `curses.KEY_LEFT` intead of multibyte escape sequence
     # curses.keypad(True)
     # curses.echo()
+    cp.initialize_screen()
 
     stdscr.clear()
 
