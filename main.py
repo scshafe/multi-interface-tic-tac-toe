@@ -10,9 +10,12 @@ from src.interfaces.ncursesterminal.ncurses_terminal_viewer import enter_ncurses
 
 from src.interfaces.ncursesterminal.ncurses_printer import *
 
+from src.logging.my_logging import logger
 
 if __name__ == "__main__":
 
+    
+    logger.info("yeet2")
 
     seriesmanager = SeriesManager("scshafe", "yeet", InterfaceMode.NCURSES)
 

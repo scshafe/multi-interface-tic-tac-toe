@@ -5,12 +5,15 @@ import curses
 from src.interfaces.ncursesterminal.ncurses_printer import *
 from src.game.series_manager import InterfaceMode, SeriesManager
 
-
+from src.logging.my_logging import logger
 
 
 
 
 def run_menu_screen_input(stdscr, seriesmanager):
+
+    logger.info("entering run_menu_screen_input")
+    
     stdscr.clear()
     stdscr.addstr(print_menu_screen(seriesmanager))
     stdscr.refresh()
@@ -32,6 +35,7 @@ def run_menu_screen_input(stdscr, seriesmanager):
 
 
 def run_player_turn(stdscr, seriesmanager, player_turn):
+    logger.info(f"entering run_player_turn [{player_turn}]")
     stdscr.clear()
 
     board = curses.newwin(34, 26, 0,0)
@@ -42,6 +46,8 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     board.refresh()
     
     commandkey = board.getch()
+
+    logger.info(f"{player_turn} entered input: {commandkey}")
 
     if commandkey == curses.KEY_RIGHT:
         board.addstr("test")
