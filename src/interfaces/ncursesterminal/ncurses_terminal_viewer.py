@@ -14,8 +14,9 @@ def run_menu_screen_input(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(print_menu_screen(seriesmanager))
     stdscr.refresh()
-    commandkey = stdscr.getch()
-    if commandkey == ord("p"):
+    commandkey = stdscr.getkey()
+    if commandkey == "p":
+    # if commandkey == ord("p"):
         seriesmanager.play_game()
         
     # match commandkey:
@@ -34,11 +35,23 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     stdscr.clear()
 
     board = curses.newwin(34, 26, 0,0)
+    board.keypad(True)
 
     board_string = build_board_string(seriesmanager)
     board.addstr(board_string)
     board.refresh()
     
+    commandkey = board.getch()
+
+    if commandkey == curses.KEY_RIGHT:
+        board.addstr("test")
+        board.refresh()
+        
+
+        seriesmanager.p_change_tile(commandkey, board)
+    
+    del board
+
     
     
 
@@ -57,6 +70,7 @@ def enter_ncurses_mode(stdscr, seriesmanager):
     # return special value such as `curses.KEY_LEFT` intead of multibyte escape sequence
     # curses.keypad(True)
     # curses.echo()
+    stdscr.keypad(True)
 
     stdscr.clear()
 

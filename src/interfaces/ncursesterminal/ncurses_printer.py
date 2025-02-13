@@ -56,7 +56,7 @@ def build_board_string(seriesmanager):
             for col in range(3):
 
                 if square_height_mod == 0 or square_height_mod == (len(circle) + 1):
-                    if seriesmanager.selected_tile_map[row][col]:
+                    if seriesmanager.selected_tile_map[row][col] == True:
                         output = output + "--------"
                     else:
                         output = output + "        "

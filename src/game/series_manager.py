@@ -4,6 +4,8 @@ from enum import Enum
 from copy import deepcopy
 from random import randint
 
+import curses
+
 class InterfaceMode(Enum):
     SIMPLE = 1
     NCURSES = 2
@@ -29,6 +31,8 @@ class SeriesManager(StateMachine):
     change_names = menu_screen.to(change_name)
     change_new_name = change_name.to(menu_screen)
     play_game = menu_screen.to(p1_turn)
+
+    p_change_tile = p1_turn.to(p1_turn) | p2_turn.to(p2_turn)
 
     p_move = p1_turn.to(match_end, cond=["valid_move", "winning_move", "match_winning_move"]) |  \
              p1_turn.to(game_end, cond=["valid_move", "winning_move"]) | \
@@ -153,4 +157,17 @@ class SeriesManager(StateMachine):
 
         # Error check to make sure it is int here
         self.interface_mode = InterfaceMode(int(interface_input))
+    
+
+    def on_p_change_tile(self, commandkey, board):
+        
+        
+        for row in range(len(self.selected_tile_map)):
+            for col in range(len(self.selected_tile_map[0])):
+                if self.selected_tile_map[row][col]:
+                    self.selected_tile_map[row][col] = False
+                    board.addstr(f"{row} and {col}")
+                    board.getch()
+                    if commandkey == curses.KEY_RIGHT:
+                        self.selected_tile_map[row][(col+1) % 3] = True
         
