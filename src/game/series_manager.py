@@ -57,6 +57,8 @@ class SeriesManager(StateMachine):
 
     def __init__(self, p1_name="player 1", p2_name="player 2", interface_mode=InterfaceMode.SIMPLE):
         self.board = create_new_board()
+        self.selected_tile_map = [[False for i in range(3)] for j in range(3)] # selected tile map is for ncurses and gtk guis (highlights the currently selected square)
+        self.selected_tile_map[0][0] = True
         self.p1_name = p1_name
         self.p2_name = p2_name
         self.p1_score = 0

@@ -33,17 +33,13 @@ def run_menu_screen_input(stdscr, seriesmanager):
 def run_player_turn(stdscr, seriesmanager, player_turn):
     stdscr.clear()
 
-    # stdscr.getch()
-
-    board = curses.newwin((4 * SQUARE_HEIGHT) + 2, (4 * SQUARE_WIDTH + 2), 0,0)
-
-    # stdscr.getch()
+    board = curses.newwin(34, 26, 0,0)
 
     board_string = build_board_string(seriesmanager)
     board.addstr(board_string)
     board.refresh()
     
-    commandkey = board.getch()
+    
     
 
 def enter_ncurses_mode(stdscr, seriesmanager):

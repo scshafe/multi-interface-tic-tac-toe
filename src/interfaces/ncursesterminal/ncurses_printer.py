@@ -52,23 +52,36 @@ def build_board_string(seriesmanager):
     output = ""
 
     for row in range(3):
-        for square_height in range(len(circle)):
+        for square_height_mod in range(len(circle)+2):
             for col in range(3):
 
-                if seriesmanager.board[row][col] == ' ':
-                    output = output + blank[square_height]
-                elif seriesmanager.board[row][col] == 'X':
-                    output = output + cross[square_height]
-                elif seriesmanager.board[row][col] == 'O':
-                    output = output + circle[square_height]
+                if square_height_mod == 0 or square_height_mod == (len(circle) + 1):
+                    if seriesmanager.selected_tile_map[row][col]:
+                        output = output + "--------"
+                    else:
+                        output = output + "        "
+                
+                
                 else:
-                    print("ERROR!!!")
-                    # quit()
+                    square_height = square_height_mod - 1
+                    output = output + '|' if seriesmanager.selected_tile_map[row][col] else output + ' '
+
+                    if seriesmanager.board[row][col] == ' ':
+                        output = output + blank[square_height]
+                    elif seriesmanager.board[row][col] == 'X':
+                        output = output + cross[square_height]
+                    elif seriesmanager.board[row][col] == 'O':
+                        output = output + circle[square_height]
+                    else:
+                        print("ERROR!!!")
+                        # quit()
+                
+                    output = output + '|' if seriesmanager.selected_tile_map[row][col] else output + ' '
                 
                 if col < 2:
                     output = output + '|'     
         if row < 2:
-            output = output + '--------------------'
+            output = output + '--------------------------'
     return output
 
 
