@@ -1,32 +1,44 @@
 
+
+
 import curses
-from src.interfaces.ncursesterminal import ncurses_printer as cp # "Curse Printer"
+from src.interfaces.ncursesterminal.ncurses_printer import *
 from src.game.series_manager import InterfaceMode, SeriesManager
 
 
-SQUARE_WIDTH_ROOT = 8
-SQUARE_HEIGHT_ROOT = 6
-
-# mulitplier will eventually be dynamic for adjusting size of screen to make board bigger
-MULTIPLIER = 3
-
-SQUARE_WIDTH = SQUARE_WIDTH_ROOT * MULTIPLIER
-SQUARE_HEIGHT = SQUARE_HEIGHT_ROOT * MULTIPLIER
 
 
-def run_menu_screen_input(seriesmanager):
-    commandkey = cp.print_menu_screen(seriesmanager)
-    match commandkey:
-        case "P":
-            seriesmanager.play_game()
-        case "C":
-            seriesmanager.play_game()
-        case "I":
-            seriesmanager.play_game()
-        case _:
-            error_input_message()
 
 
+def run_menu_screen_input(stdscr, seriesmanager):
+    stdscr.clear()
+    stdscr.addstr(print_menu_screen(seriesmanager))
+    stdscr.refresh()
+    commandkey = stdscr.getch()
+    if commandkey == ord("p"):
+        seriesmanager.play_game()
+    # match commandkey:
+    #     case ord("p"):
+    #         seriesmanager.play_game()
+    #     case "C":
+    #         seriesmanager.play_game()
+    #     case "I":
+    #         seriesmanager.play_game()
+    #     case _:
+    #         # error_input_message()
+    #         return
+
+
+def run_player_turn(stdscr, seriesmanager, player_turn):
+    stdscr.clear()
+
+    board = curses.newwin((3 * SQUARE_HEIGHT) + 2, (3 * SQUARE_WIDTH + 2), 0,0)
+    board.addstr(build_board_string(seriesmanager))
+
+    commandkey = stdscr.getch()
+
+    board.refresh()
+    
 
 def enter_ncurses_mode(stdscr, seriesmanager):
 
@@ -43,16 +55,15 @@ def enter_ncurses_mode(stdscr, seriesmanager):
     # return special value such as `curses.KEY_LEFT` intead of multibyte escape sequence
     # curses.keypad(True)
     # curses.echo()
-    cp.initialize_screen()
 
     stdscr.clear()
 
-    stdscr.addstr("Pretty text")
-    stdscr.refresh()
+    # stdscr.addstr("Pretty text")
+    # stdscr.refresh()
 
-    board = curses.newwin((3 * SQUARE_HEIGHT) + 2, (3 * SQUARE_WIDTH + 2), 0,0)
+    # board = curses.newwin((3 * SQUARE_HEIGHT) + 2, (3 * SQUARE_WIDTH + 2), 0,0)
 
-    commandbar = curses.newwin(3, curses.COLS, 3 * SQUARE_HEIGHT + 2, 0)
+    # commandbar = curses.newwin(3, curses.COLS, 3 * SQUARE_HEIGHT + 2, 0)
     
     stdscr.refresh()
     
@@ -71,25 +82,23 @@ def enter_ncurses_mode(stdscr, seriesmanager):
 
         
     while (seriesmanager.interface_mode == InterfaceMode.NCURSES):
-        input(run_match_end_input_string(seriesmanager))
         
         current_state = seriesmanager.current_state
-        commandkey = stdscr.getch()
         match current_state:
             case SeriesManager.menu_screen:
-                run_menu_screen_input(seriesmanager, commandkey)
-            case SeriesManager.interface_screen:
-                run_interface_screen(seriesmanager)
-            case SeriesManager.change_name:
-                change_name_screen(seriesmanager)
+                run_menu_screen_input(stdscr, seriesmanager)
+            # case SeriesManager.interface_screen:
+            #     run_interface_screen(seriesmanager)
+            # case SeriesManager.change_name:
+            #     change_name_screen(seriesmanager)
             case SeriesManager.p1_turn:
-                run_player_turn(seriesmanager, 1)
+                run_player_turn(stdscr, seriesmanager, 1)
             case SeriesManager.p2_turn:
-                run_player_turn(seriesmanager, 2)
-            case SeriesManager.game_end:
-                run_game_end_input(seriesmanager)
-            case SeriesManager.match_end:
-                run_match_end_input(seriesmanager)
+                run_player_turn(stdscr, seriesmanager, 2)
+            # case SeriesManager.game_end:
+            #     run_game_end_input(seriesmanager)
+            # case SeriesManager.match_end:
+            #     run_match_end_input(seriesmanager)
 
     # ~~~~~~~~~~~~~~~~~~~~ MAIN EXECUTION LOOP ~~~~~~~~~~~~~~~~~~
 
