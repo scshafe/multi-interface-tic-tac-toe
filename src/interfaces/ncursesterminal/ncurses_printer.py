@@ -1,8 +1,8 @@
 
 import curses
 
-SQUARE_WIDTH_ROOT = 8
-SQUARE_HEIGHT_ROOT = 6
+SQUARE_WIDTH_ROOT = 6
+SQUARE_HEIGHT_ROOT = 7
 
 # mulitplier will eventually be dynamic for adjusting size of screen to make board bigger
 MULTIPLIER = 1
@@ -27,19 +27,19 @@ blank = ["      ",
          "      ",
          "      "]
 
-circle = ["        ",
+circle = ["      ",
           "  __  ",
-          " /  \ ",
-          "/    \\",
-          "\\    /",
-          " \\__/ ",
+          ' /  \\ ',
+          '/    \\',
+          '\\    /',
+          ' \\__/ ',
           "      "]
 
 cross = ["      ",
-         " \\  / ",
-         "  \\/  ",
-         "  /\\  ",
-         " /  \\ ",
+         ' \\  / ',
+         '  \\/  ',
+         '  /\\  ',
+         ' /  \\ ',
          "      ",
          "      "]
 
@@ -51,24 +51,23 @@ def build_board_string(seriesmanager):
 
     output = ""
 
-    for row in range(2):
+    for row in range(3):
         for square_height in range(len(circle)):
-            for col in range(2):
-                square = col + (row * 3)
+            for col in range(3):
 
-                if seriesmanager.board[square] == ' ':
+                if seriesmanager.board[row][col] == ' ':
                     output = output + blank[square_height]
-                elif seriesmanager.board[square] == 'X':
+                elif seriesmanager.board[row][col] == 'X':
                     output = output + cross[square_height]
-                elif seriesmanager.board[square] == 'O':
+                elif seriesmanager.board[row][col] == 'O':
                     output = output + circle[square_height]
                 else:
                     print("ERROR!!!")
-                    quit()
+                    # quit()
                 
-                if col != 2:
+                if col < 2:
                     output = output + '|'     
-        if row != 2:
+        if row < 2:
             output = output + '--------------------'
     return output
 

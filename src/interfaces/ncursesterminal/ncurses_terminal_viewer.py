@@ -17,6 +17,7 @@ def run_menu_screen_input(stdscr, seriesmanager):
     commandkey = stdscr.getch()
     if commandkey == ord("p"):
         seriesmanager.play_game()
+        
     # match commandkey:
     #     case ord("p"):
     #         seriesmanager.play_game()
@@ -32,12 +33,17 @@ def run_menu_screen_input(stdscr, seriesmanager):
 def run_player_turn(stdscr, seriesmanager, player_turn):
     stdscr.clear()
 
-    board = curses.newwin((3 * SQUARE_HEIGHT) + 2, (3 * SQUARE_WIDTH + 2), 0,0)
-    board.addstr(build_board_string(seriesmanager))
+    # stdscr.getch()
 
-    commandkey = stdscr.getch()
+    board = curses.newwin((4 * SQUARE_HEIGHT) + 2, (4 * SQUARE_WIDTH + 2), 0,0)
 
+    # stdscr.getch()
+
+    board_string = build_board_string(seriesmanager)
+    board.addstr(board_string)
     board.refresh()
+    
+    commandkey = board.getch()
     
 
 def enter_ncurses_mode(stdscr, seriesmanager):
@@ -80,10 +86,13 @@ def enter_ncurses_mode(stdscr, seriesmanager):
     #         commandbar.addstr("left")
     #         commandbar.refresh()
 
+    # board = build_board_string(seriesmanager)
+    # print(board)
         
     while (seriesmanager.interface_mode == InterfaceMode.NCURSES):
         
         current_state = seriesmanager.current_state
+
         match current_state:
             case SeriesManager.menu_screen:
                 run_menu_screen_input(stdscr, seriesmanager)
@@ -114,3 +123,4 @@ def enter_ncurses_mode(stdscr, seriesmanager):
 
 def enter_ncurses_mode_wrapper(seriesmanager):
     curses.wrapper(enter_ncurses_mode, seriesmanager)
+    

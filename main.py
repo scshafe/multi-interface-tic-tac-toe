@@ -8,11 +8,16 @@ from src.game.series_manager import SeriesManager, InterfaceMode
 from src.interfaces.simple_terminal.simple_terminal_viewer import enter_simple_mode
 from src.interfaces.ncursesterminal.ncurses_terminal_viewer import enter_ncurses_mode_wrapper
 
+from src.interfaces.ncursesterminal.ncurses_printer import *
+
 
 if __name__ == "__main__":
 
 
     seriesmanager = SeriesManager("scshafe", "yeet", InterfaceMode.NCURSES)
+
+    # print(build_board_string(seriesmanager))
+    # input()
 
     # This is the home MENU loop
     while (seriesmanager.interface_mode != InterfaceMode.QUIT_GAME):
