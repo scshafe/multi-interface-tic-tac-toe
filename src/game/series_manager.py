@@ -113,6 +113,7 @@ class SeriesManager(StateMachine):
         return self.p1_name if self.game_log[-1] == Tile.P1 else self.p2_name
 
     def valid_move(self, move_input):
+        print(f"entering valid_move: {move_input}")
         if self.interface_mode == InterfaceMode.NCURSES:
             logger.info("valid move")
             row,col = self.find_selected_tile()
@@ -150,8 +151,12 @@ class SeriesManager(StateMachine):
 
     
     def on_p_move(self, move_input):
+        logger.info(f"entering on_p_move: {move_input}")
         if self.interface_mode == InterfaceMode.NCURSES:
             row,col = self.find_selected_tile()
+            if self.board[row][col] != Tile.BLANK:
+                logger.info("player attempted to move at occupied square")
+                return False
             logger.info(f"player moved at: {row},{col}")
             self.board[row][col] = self.current_player_piece()
             return True
