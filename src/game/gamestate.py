@@ -4,13 +4,13 @@
 This file contains all helper functions that have to do with the tic-tac-toe game board
 '''
 
-# from enum import Enum
+from enum import Enum
 
 
-# class TileOptions(Enum):
-#     BLANK = 0
-#     P1 = 1
-#     P2 = 2
+class Tile(Enum):
+    BLANK = 0
+    P1 = 1
+    P2 = 2
 
 
 def board_contains_3_in_a_row_for_piece(board, piece):
@@ -31,9 +31,9 @@ def board_contains_3_in_a_row_for_piece(board, piece):
 
 
 def board_contains_3_in_a_row(board):
-    return board_contains_3_in_a_row_for_piece(board, 'X') or board_contains_3_in_a_row_for_piece(board, 'O')
+    return board_contains_3_in_a_row_for_piece(board, Tile.P1) or board_contains_3_in_a_row_for_piece(board, Tile.P2)
 
 
 
 def create_new_board():
-    return [[' ' for i in range(3)] for j in range(3)]
+    return [[Tile.BLANK for i in range(3)] for j in range(3)]

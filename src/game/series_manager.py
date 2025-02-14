@@ -64,7 +64,7 @@ class SeriesManager(StateMachine):
     play_another_match = match_end.to(menu_screen)
 
     def current_player_piece(self):
-        return 'X' if self.current_state == SeriesManager.p1_turn else 'O'
+        return Tile.P1 if self.current_state == SeriesManager.p1_turn else Tile.P2
     
     def current_player(self):
         return self.p1_name if self.current_state == SeriesManager.p1_turn else self.p2_name
@@ -97,12 +97,12 @@ class SeriesManager(StateMachine):
     def on_enter_game_end(self):
         # a player did win
         temp_board = deepcopy(self.board)
-        if board_contains_3_in_a_row_for_piece(temp_board, 'X'):
+        if board_contains_3_in_a_row_for_piece(temp_board, Tile.P1):
             self.p1_score += 1
-            self.game_log.append('X')
+            self.game_log.append(Tile.P1)
         else:
             self.p2_score += 1
-            self.game_log.append('O')
+            self.game_log.append(Tile.P2)
     
     def on_exit_game_end(self):
         self.board = create_new_board()
@@ -110,13 +110,13 @@ class SeriesManager(StateMachine):
     def most_recent_game_winner(self):
         if len(self.game_log) == 0:
             return ""
-        return self.p1_name if self.game_log[-1] == 'X' else self.p2_name
+        return self.p1_name if self.game_log[-1] == Tile.P1 else self.p2_name
 
     def valid_move(self, move_input):
         if self.interface_mode == InterfaceMode.NCURSES:
             logger.info("valid move")
             row,col = self.find_selected_tile()
-            if self.board[row][col] == ' ':
+            if self.board[row][col] == Tile.BLANK:
                 logger.info("valid move true")
                 return True
             return False
@@ -124,7 +124,7 @@ class SeriesManager(StateMachine):
         row = int(move_input[0])
         col = int(move_input[2])
 
-        if self.board[row][col] == ' ':
+        if self.board[row][col] == Tile.BLANK:
             return True
         
         print("Error: {} is an invalid move".format(move_input))
@@ -141,12 +141,12 @@ class SeriesManager(StateMachine):
 
     def on_enter_match_end(self):
         temp_board = deepcopy(self.board)
-        if board_contains_3_in_a_row_for_piece(temp_board, 'X'):
+        if board_contains_3_in_a_row_for_piece(temp_board, Tile.P1):
             self.p1_score += 1
-            self.game_log.append('X')
+            self.game_log.append(Tile.P1)
         else:
             self.p2_score += 1
-            self.game_log.append('O')
+            self.game_log.append(Tile.P1)
 
     
     def on_p_move(self, move_input):
@@ -159,7 +159,7 @@ class SeriesManager(StateMachine):
             row = int(move_input[0])
             col = int(move_input[2])
 
-            if self.board[row][col] == ' ':
+            if self.board[row][col] == Tile.BLANK:
                 
                 print(f"{self.current_player()} moved!")
                 piece = self.current_player_piece()

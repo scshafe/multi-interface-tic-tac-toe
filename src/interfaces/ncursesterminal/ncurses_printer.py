@@ -1,6 +1,8 @@
 
 import curses
 
+from src.game.gamestate import Tile
+
 SQUARE_WIDTH_ROOT = 6
 SQUARE_HEIGHT_ROOT = 7
 
@@ -66,11 +68,11 @@ def build_board_string(seriesmanager):
                     square_height = square_height_mod - 1
                     output = output + '|' if seriesmanager.selected_tile_map[row][col] else output + ' '
 
-                    if seriesmanager.board[row][col] == ' ':
+                    if seriesmanager.board[row][col] == Tile.BLANK:
                         output = output + blank[square_height]
-                    elif seriesmanager.board[row][col] == 'X':
+                    elif seriesmanager.board[row][col] == Tile.P1:
                         output = output + cross[square_height]
-                    elif seriesmanager.board[row][col] == 'O':
+                    elif seriesmanager.board[row][col] == Tile.P2:
                         output = output + circle[square_height]
                     else:
                         print("ERROR!!!")
