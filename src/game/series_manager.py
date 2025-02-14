@@ -6,11 +6,21 @@ from random import randint
 
 import curses
 
+from src.logging.my_logging import logger
+
 class InterfaceMode(Enum):
     SIMPLE = 1
     NCURSES = 2
     GTK_GUI = 3
     QUIT_GAME = 4
+
+
+class SelectedTileDirections(Enum):
+    UP = 1
+    RIGHT = 2
+    DOWN = 3
+    LEFT = 4
+    INVALID = 5
 
 
 
@@ -159,15 +169,23 @@ class SeriesManager(StateMachine):
         self.interface_mode = InterfaceMode(int(interface_input))
     
 
-    def on_p_change_tile(self, commandkey, board):
+    def on_p_change_tile(self, direction):
         
-        
+        logger.info("entering on_p_change_tile")
         for row in range(len(self.selected_tile_map)):
             for col in range(len(self.selected_tile_map[0])):
                 if self.selected_tile_map[row][col]:
                     self.selected_tile_map[row][col] = False
-                    board.addstr(f"{row} and {col}")
-                    board.getch()
-                    if commandkey == curses.KEY_RIGHT:
-                        self.selected_tile_map[row][(col+1) % 3] = True
+                    
+                    if direction == SelectedTileDirections.UP:
+                        self.selected_tile_map[(row-1)%3][col] = True
+                    elif direction == SelectedTileDirections.RIGHT:
+                        self.selected_tile_map[row][(col+1)%3] = True
+                    elif direction == SelectedTileDirections.DOWN:
+                        self.selected_tile_map[(row+1)%3][col] = True
+                    elif direction == SelectedTileDirections.LEFT:
+                        self.selected_tile_map[row][(col-1)%3] = True
+                    else:
+                        logger.info("ERROR: invalid direction entered into on_p_change_tile")
+                    return
         

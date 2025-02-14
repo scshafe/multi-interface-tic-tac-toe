@@ -3,7 +3,7 @@
 
 import curses
 from src.interfaces.ncursesterminal.ncurses_printer import *
-from src.game.series_manager import InterfaceMode, SeriesManager
+from src.game.series_manager import InterfaceMode, SelectedTileDirections, SeriesManager
 
 from src.logging.my_logging import logger
 
@@ -34,6 +34,18 @@ def run_menu_screen_input(stdscr, seriesmanager):
     #         return
 
 
+def direction_from_commandkey(commandkey):
+    if commandkey == curses.KEY_UP:
+        return SelectedTileDirections.UP
+    if commandkey == curses.KEY_RIGHT:
+        return SelectedTileDirections.RIGHT
+    if commandkey == curses.KEY_DOWN:
+        return SelectedTileDirections.DOWN
+    if commandkey == curses.KEY_LEFT:
+        return SelectedTileDirections.LEFT
+    return SelectedTileDirections.INVALID
+
+
 def run_player_turn(stdscr, seriesmanager, player_turn):
     logger.info(f"entering run_player_turn [{player_turn}]")
     stdscr.clear()
@@ -49,12 +61,16 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
 
     logger.info(f"{player_turn} entered input: {commandkey}")
 
-    if commandkey == curses.KEY_RIGHT:
-        board.addstr("test")
-        board.refresh()
+    direction = direction_from_commandkey(commandkey)
+    logger.info(f"direction entered: {direction}")
+    if direction != SelectedTileDirections.INVALID:
+        seriesmanager.p_change_tile(direction)
+    
+
+
         
 
-        seriesmanager.p_change_tile(commandkey, board)
+        
     
     del board
 
