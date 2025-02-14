@@ -4,6 +4,14 @@
 This file contains all helper functions that have to do with the tic-tac-toe game board
 '''
 
+# from enum import Enum
+
+
+# class TileOptions(Enum):
+#     BLANK = 0
+#     P1 = 1
+#     P2 = 2
+
 
 def board_contains_3_in_a_row_for_piece(board, piece):
     for row in range(3):

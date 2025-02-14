@@ -58,13 +58,16 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     board.refresh()
     
     commandkey = board.getch()
-
     logger.info(f"{player_turn} entered input: {commandkey}")
 
     direction = direction_from_commandkey(commandkey)
     logger.info(f"direction entered: {direction}")
+
     if direction != SelectedTileDirections.INVALID:
         seriesmanager.p_change_tile(direction)
+    elif commandkey == 10: # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
+        logger.info("key is KEY_ENTER")
+        seriesmanager.p_move('P')
     
 
 

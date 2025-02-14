@@ -83,6 +83,8 @@ class SeriesManager(StateMachine):
         super(SeriesManager, self).__init__()
     
     def winning_move(self, move_input):
+        if self.interface_mode == InterfaceMode.NCURSES:
+            return False
         temp_board = deepcopy(self.board)
         row = int(move_input[0])
         col = int(move_input[2])
@@ -111,6 +113,14 @@ class SeriesManager(StateMachine):
         return self.p1_name if self.game_log[-1] == 'X' else self.p2_name
 
     def valid_move(self, move_input):
+        if self.interface_mode == InterfaceMode.NCURSES:
+            logger.info("valid move")
+            row,col = self.find_selected_tile()
+            if self.board[row][col] == ' ':
+                logger.info("valid move true")
+                return True
+            return False
+
         row = int(move_input[0])
         col = int(move_input[2])
 
@@ -121,6 +131,8 @@ class SeriesManager(StateMachine):
         return False
 
     def match_winning_move(self, move_input):
+        if self.interface_mode == InterfaceMode.NCURSES:
+            return False
         if self.current_state == SeriesManager.p1_turn and self.p1_score + 1 == self.play_to_total:
             return True
         if self.current_state == SeriesManager.p2_turn and self.p2_score + 1 == self.play_to_total:
@@ -138,16 +150,22 @@ class SeriesManager(StateMachine):
 
     
     def on_p_move(self, move_input):
-        row = int(move_input[0])
-        col = int(move_input[2])
-
-        if self.board[row][col] == ' ':
-            
-            print(f"{self.current_player()} moved!")
-            piece = self.current_player_piece()
-            self.board[row][col] = piece
+        if self.interface_mode == InterfaceMode.NCURSES:
+            row,col = self.find_selected_tile()
+            logger.info(f"player moved at: {row},{col}")
+            self.board[row][col] = self.current_player_piece()
             return True
-        return False
+        elif self.interface_mode == InterfaceMode.SIMPLE:
+            row = int(move_input[0])
+            col = int(move_input[2])
+
+            if self.board[row][col] == ' ':
+                
+                print(f"{self.current_player()} moved!")
+                piece = self.current_player_piece()
+                self.board[row][col] = piece
+                return True
+            return False
 
     def on_change_new_name(self, player_num, new_player_name):
         if player_num != '1' and player_num != '2':
@@ -189,3 +207,8 @@ class SeriesManager(StateMachine):
                         logger.info("ERROR: invalid direction entered into on_p_change_tile")
                     return
         
+    def find_selected_tile(self):
+        for row in range(3):
+            for col in range(3):
+                if self.selected_tile_map[row][col]:
+                    return row,col
