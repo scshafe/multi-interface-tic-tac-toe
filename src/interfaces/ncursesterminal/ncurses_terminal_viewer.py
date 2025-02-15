@@ -67,16 +67,17 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
         seriesmanager.p_change_tile(direction)
     elif commandkey == 10: # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
         logger.info("key is KEY_ENTER")
-        seriesmanager.p_move('P')
+        seriesmanager.p_move('P')     
+    # del board
+
+def run_game_end_input(stdscr, seriesmanager):
+    stdscr.clear()
+    stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins! ")
+    stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}")
+    stdscr.addstr("   press any key to play again.")
     
-
-
-        
-
-        
-    
-    del board
-
+    stdscr.getch()
+    seriesmanager.next_game()
     
     
 
@@ -139,8 +140,8 @@ def enter_ncurses_mode(stdscr, seriesmanager):
                 run_player_turn(stdscr, seriesmanager, 1)
             case SeriesManager.p2_turn:
                 run_player_turn(stdscr, seriesmanager, 2)
-            # case SeriesManager.game_end:
-            #     run_game_end_input(seriesmanager)
+            case SeriesManager.game_end:
+                run_game_end_input(stdscr, seriesmanager)
             # case SeriesManager.match_end:
             #     run_match_end_input(seriesmanager)
 

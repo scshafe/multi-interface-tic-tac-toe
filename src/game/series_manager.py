@@ -83,11 +83,14 @@ class SeriesManager(StateMachine):
         super(SeriesManager, self).__init__()
     
     def winning_move(self, move_input):
+        logger.info("entering winning_move")
+        row,col = None, None
         if self.interface_mode == InterfaceMode.NCURSES:
-            return False
+            row,col = self.find_selected_tile()
+        elif self.interface_mode == InterfaceMode.SIMPLE:
+            row = int(move_input[0])
+            col = int(move_input[2])
         temp_board = deepcopy(self.board)
-        row = int(move_input[0])
-        col = int(move_input[2])
         temp_board[row][col] = self.current_player_piece()
 
         if not board_contains_3_in_a_row(temp_board):
@@ -96,6 +99,7 @@ class SeriesManager(StateMachine):
     
     def on_enter_game_end(self):
         # a player did win
+        logger.info("entering on_eneter_game_end")
         temp_board = deepcopy(self.board)
         if board_contains_3_in_a_row_for_piece(temp_board, Tile.P1):
             self.p1_score += 1
@@ -105,6 +109,7 @@ class SeriesManager(StateMachine):
             self.game_log.append(Tile.P2)
     
     def on_exit_game_end(self):
+        logger.info("entering on_exit_game_end")
         self.board = create_new_board()
     
     def most_recent_game_winner(self):
