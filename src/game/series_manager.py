@@ -118,7 +118,7 @@ class SeriesManager(StateMachine):
         return self.p1_name if self.game_log[-1] == Tile.P1 else self.p2_name
 
     def valid_move(self, move_input):
-        print(f"entering valid_move: {move_input}")
+        logger.info(f"entering valid_move: {move_input}")
         if self.interface_mode == InterfaceMode.NCURSES:
             logger.info("valid move")
             row,col = self.find_selected_tile()
