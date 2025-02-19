@@ -108,22 +108,6 @@ def enter_ncurses_mode(stdscr, seriesmanager):
     # commandbar = curses.newwin(3, curses.COLS, 3 * SQUARE_HEIGHT + 2, 0)
     
     stdscr.refresh()
-    
-    # while True:
-    #     # Menu keys
-    #     c = stdscr.getch()
-    #     if c == ord('m'):
-    #         board.addstr("m detected")
-    #         board.refresh()
-    #     if c == ord('')
-
-
-    #     if c == curses.KEY_LEFT:
-    #         commandbar.addstr("left")
-    #         commandbar.refresh()
-
-    # board = build_board_string(seriesmanager)
-    # print(board)
         
     while (seriesmanager.interface_mode == InterfaceMode.NCURSES):
         
