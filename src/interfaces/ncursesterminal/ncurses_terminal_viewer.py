@@ -74,10 +74,20 @@ def run_game_end_input(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins! ")
     stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}")
-    stdscr.addstr("   press any key to play again.")
+    stdscr.addstr("   press any key to play the next round.")
     
     stdscr.getch()
     seriesmanager.next_game()
+
+
+def run_match_end_input(stdscr, seriesmanager):
+    stdscr.clear()
+    stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins the series! ")
+    stdscr.addstr(f"the final score is: {seriesmanager.p1_score}-{seriesmanager.p2_score}")
+    stdscr.addstr("press any key to return to home menu.")
+
+    stdscr.getch()
+    seriesmanager.play_another_match()
     
     
 
@@ -97,17 +107,6 @@ def enter_ncurses_mode(stdscr, seriesmanager):
     # curses.keypad(True)
     # curses.echo()
     stdscr.keypad(True)
-
-    stdscr.clear()
-
-    # stdscr.addstr("Pretty text")
-    # stdscr.refresh()
-
-    # board = curses.newwin((3 * SQUARE_HEIGHT) + 2, (3 * SQUARE_WIDTH + 2), 0,0)
-
-    # commandbar = curses.newwin(3, curses.COLS, 3 * SQUARE_HEIGHT + 2, 0)
-    
-    stdscr.refresh()
         
     while (seriesmanager.interface_mode == InterfaceMode.NCURSES):
         
@@ -126,8 +125,8 @@ def enter_ncurses_mode(stdscr, seriesmanager):
                 run_player_turn(stdscr, seriesmanager, 2)
             case SeriesManager.game_end:
                 run_game_end_input(stdscr, seriesmanager)
-            # case SeriesManager.match_end:
-            #     run_match_end_input(seriesmanager)
+            case SeriesManager.match_end:
+                run_match_end_input(stdscr, seriesmanager)
 
     # ~~~~~~~~~~~~~~~~~~~~ MAIN EXECUTION LOOP ~~~~~~~~~~~~~~~~~~
 

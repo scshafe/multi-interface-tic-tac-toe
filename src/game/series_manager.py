@@ -136,9 +136,9 @@ class SeriesManager(StateMachine):
         print("Error: {} is an invalid move".format(move_input))
         return False
 
-    def match_winning_move(self, move_input):
-        if self.interface_mode == InterfaceMode.NCURSES:
-            return False
+    def match_winning_move(self):
+        # if self.interface_mode == InterfaceMode.NCURSES:
+        #     return False
         if self.current_state == SeriesManager.p1_turn and self.p1_score + 1 == self.play_to_total:
             return True
         if self.current_state == SeriesManager.p2_turn and self.p2_score + 1 == self.play_to_total:
