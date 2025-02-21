@@ -18,20 +18,15 @@ def run_menu_screen_input(stdscr, seriesmanager):
     stdscr.addstr(print_menu_screen(seriesmanager))
     stdscr.refresh()
     commandkey = stdscr.getkey()
-    if commandkey == "p":
-    # if commandkey == ord("p"):
-        seriesmanager.play_game()
-        
-    # match commandkey:
-    #     case ord("p"):
-    #         seriesmanager.play_game()
-    #     case "C":
-    #         seriesmanager.play_game()
-    #     case "I":
-    #         seriesmanager.play_game()
-    #     case _:
-    #         # error_input_message()
-    #         return
+    match commandkey:
+        case "p":
+            seriesmanager.play_game()
+        case "c":
+            seriesmanager.change_names()
+        case "i":
+            seriesmanager.change_interface()
+        case _:
+            return
 
 
 def direction_from_commandkey(commandkey):
