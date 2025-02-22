@@ -85,6 +85,22 @@ def run_match_end_input(stdscr, seriesmanager):
     seriesmanager.play_another_match()
     
     
+def run_interface_screen(stdscr, seriesmanager):
+    stdscr.clear()
+    stdscr.addstr(f"which interface would you like to use? [1] Simple [2] NCurses [3] GTK Gui [4] Quit")
+
+    commandkey = stdscr.getch()
+    seriesmanager.interface_selected(commandkey)
+
+def change_name_screen(stdscr, seriesmanager):
+    stdscr.clear()
+    stdscr.addstr(f"which player would you like to change the name for? [1/2]")
+    player_num = stdscr.getkey()
+    new_name = stdscr.getstr()
+
+    seriesmanager.change_new_name(player_num, new_name)
+
+
 
 def enter_ncurses_mode(stdscr, seriesmanager):
 
@@ -110,10 +126,10 @@ def enter_ncurses_mode(stdscr, seriesmanager):
         match current_state:
             case SeriesManager.menu_screen:
                 run_menu_screen_input(stdscr, seriesmanager)
-            # case SeriesManager.interface_screen:
-            #     run_interface_screen(seriesmanager)
-            # case SeriesManager.change_name:
-            #     change_name_screen(seriesmanager)
+            case SeriesManager.interface_screen:
+                run_interface_screen(stdscr, seriesmanager)
+            case SeriesManager.change_name:
+                change_name_screen(stdscr, seriesmanager)
             case SeriesManager.p1_turn:
                 run_player_turn(stdscr, seriesmanager, 1)
             case SeriesManager.p2_turn:

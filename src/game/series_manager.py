@@ -179,8 +179,10 @@ class SeriesManager(StateMachine):
 
     def on_change_new_name(self, player_num, new_player_name):
         if player_num != '1' and player_num != '2':
-            print("Error: player number must be 1 or 2")
+            logger.error(f"Error: incorrect player_num entered: {player_num}")
             return False
+        old_name = self.p1_name if player_num == '1' else self.p2_name
+        logger.info(f"changing name for player_num: {player_num} from {old_name} to {new_player_name}")
         
         if player_num == '1':
             self.p1_name = new_player_name
