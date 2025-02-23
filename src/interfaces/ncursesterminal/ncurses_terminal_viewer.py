@@ -88,7 +88,7 @@ def run_interface_screen(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"which interface would you like to use? [1] Simple [2] NCurses [3] GTK Gui [4] Quit")
 
-    commandkey = stdscr.getch()
+    commandkey = stdscr.getkey()
     seriesmanager.interface_selected(commandkey)
 
 def change_name_screen(stdscr, seriesmanager):
