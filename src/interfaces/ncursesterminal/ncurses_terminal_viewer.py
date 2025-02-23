@@ -62,8 +62,7 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
         seriesmanager.p_change_tile(direction)
     elif commandkey == 10: # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
         logger.info("key is KEY_ENTER")
-        seriesmanager.p_move('P')     
-    # del board
+        seriesmanager.p_move('P')
 
 def run_game_end_input(stdscr, seriesmanager):
     stdscr.clear()
@@ -95,7 +94,7 @@ def run_interface_screen(stdscr, seriesmanager):
 def change_name_screen(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"which player would you like to change the name for? [1/2]")
-    player_num = stdscr.getkey()
+    player_num = stdscr.getkeyp()
     new_name = stdscr.getstr()
 
     seriesmanager.change_new_name(player_num, new_name)
@@ -103,20 +102,6 @@ def change_name_screen(stdscr, seriesmanager):
 
 
 def enter_ncurses_mode(stdscr, seriesmanager):
-
-    # ~~~~~~~~~~~~~~~~~~~~ SETUP NCURSES MODE ~~~~~~~~~~~~~~~~~~~
-
-    # stdscr = curses.initscr()
-
-    # turns off automatic ehcoing of keys to the screen
-    # curses.noecho()
-
-    # react to keys instantly, without require the [Enter] key to be pressed
-    # curses.cbreak()
-
-    # return special value such as `curses.KEY_LEFT` intead of multibyte escape sequence
-    # curses.keypad(True)
-    # curses.echo()
     stdscr.keypad(True)
         
     while (seriesmanager.interface_mode == InterfaceMode.NCURSES):
@@ -138,16 +123,6 @@ def enter_ncurses_mode(stdscr, seriesmanager):
                 run_game_end_input(stdscr, seriesmanager)
             case SeriesManager.match_end:
                 run_match_end_input(stdscr, seriesmanager)
-
-    # ~~~~~~~~~~~~~~~~~~~~ MAIN EXECUTION LOOP ~~~~~~~~~~~~~~~~~~
-
-    # stdscr.addstr("curses mode activated")
-    # stdscr.refresh()
-
-    # ~~~~~~~~~~~~~~~~~~~~ EXIT NCURSES MODE ~~~~~~~~~~~~~~~~~~~
-    # curses.nocbreak()
-    # stdscr.keypad(False)
-    # curses.echo()
 
 
 
