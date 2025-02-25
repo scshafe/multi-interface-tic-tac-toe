@@ -14,13 +14,8 @@ from src.logging.my_logging import logger
 
 if __name__ == "__main__":
 
-    
-    logger.info("yeet2")
 
     seriesmanager = SeriesManager("scshafe", "yeet", InterfaceMode.NCURSES)
-
-    # print(build_board_string(seriesmanager))
-    # input()
 
     # This is the home MENU loop
     while (seriesmanager.interface_mode != InterfaceMode.QUIT_GAME):
@@ -30,13 +25,13 @@ if __name__ == "__main__":
             enter_simple_mode(seriesmanager)
 
         if (seriesmanager.interface_mode == InterfaceMode.NCURSES):
-            print("Ncurses Game Mode")
+            logger.info("Ncurses Game Mode")
 
             enter_ncurses_mode_wrapper(seriesmanager)
         
         if (seriesmanager.interface_mode == InterfaceMode.GTK_GUI):
-            print("Sorry GTK not yet implemented")
+            logger.info("Sorry GTK not yet implemented")
             interface_mode = InterfaceMode.SIMPLE
             # start GUI
         
-    print("Quitting Game")
+    logger.info("Quitting Game")
