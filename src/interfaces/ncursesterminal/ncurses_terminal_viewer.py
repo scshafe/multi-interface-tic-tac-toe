@@ -18,6 +18,7 @@ def run_menu_screen_input(stdscr, seriesmanager):
     stdscr.addstr(print_menu_screen(seriesmanager))
     stdscr.refresh()
     commandkey = stdscr.getkey()
+    commandkey = commandkey.lower()
     match commandkey:
         case "p":
             seriesmanager.play_game()
