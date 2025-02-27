@@ -133,7 +133,7 @@ class SeriesManager(StateMachine):
         if self.board[row][col] == Tile.BLANK:
             return True
         
-        print("Error: {} is an invalid move".format(move_input))
+        logger.error("Error: {} is an invalid move".format(move_input))
         return False
 
     def match_winning_move(self):
@@ -171,7 +171,7 @@ class SeriesManager(StateMachine):
 
             if self.board[row][col] == Tile.BLANK:
                 
-                print(f"{self.current_player()} moved!")
+                logger.info(f"{self.current_player()} moved!")
                 piece = self.current_player_piece()
                 self.board[row][col] = piece
                 return True
