@@ -68,7 +68,7 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
 def run_game_end_input(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins! ")
-    stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}")
+    stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
     stdscr.addstr("   press any key to play the next round.")
     
     stdscr.getch()
@@ -78,7 +78,7 @@ def run_game_end_input(stdscr, seriesmanager):
 def run_match_end_input(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins the series! ")
-    stdscr.addstr(f"the final score is: {seriesmanager.p1_score}-{seriesmanager.p2_score}")
+    stdscr.addstr(f"the final score is: {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
     stdscr.addstr("press any key to return to home menu.")
 
     stdscr.getch()
@@ -87,7 +87,7 @@ def run_match_end_input(stdscr, seriesmanager):
     
 def run_interface_screen(stdscr, seriesmanager):
     stdscr.clear()
-    stdscr.addstr(f"which interface would you like to use? [1] Simple [2] NCurses [3] GTK Gui [4] Quit")
+    stdscr.addstr(f"which interface would you like to use?\n[1] Simple\n[2] NCurses\n[3] GTK Gui\n[4] Quit")
 
     commandkey = stdscr.getkey()
     seriesmanager.interface_selected(commandkey)
@@ -95,8 +95,11 @@ def run_interface_screen(stdscr, seriesmanager):
 def change_name_screen(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"which player would you like to change the name for? [1/2]")
-    player_num = stdscr.getkeyp()
+    player_num = stdscr.getkey()
+    stdscr.addstr(f"\nchanging name for {seriesmanager.p1_name if player_num == "1" else seriesmanager.p2_name}: ")
+    curses.echo()
     new_name = stdscr.getstr()
+    curses.noecho()
 
     seriesmanager.change_new_name(player_num, new_name)
 
