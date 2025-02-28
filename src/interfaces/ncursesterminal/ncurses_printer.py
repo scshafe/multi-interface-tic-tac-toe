@@ -18,7 +18,7 @@ SQUARE_HEIGHT = SQUARE_HEIGHT_ROOT * MULTIPLIER
 
 def print_menu_screen(seriesmanager):
     
-    return "[P] to play"
+    return "[P] to play\n[C] to change names\n[I] change interfaces"
 
 
 blank = ["      ",

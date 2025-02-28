@@ -26,6 +26,7 @@ def run_menu_screen_input(stdscr, seriesmanager):
             seriesmanager.change_names()
         case "i":
             seriesmanager.change_interface()
+
         case _:
             return
 
