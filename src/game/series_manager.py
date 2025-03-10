@@ -36,6 +36,7 @@ class SeriesManager(StateMachine):
     match_end = State()
 
     change_interface = menu_screen.to(interface_screen)
+    quit_game = menu_screen.to(menu_screen)
     interface_selected = interface_screen.to(menu_screen)
 
     change_names = menu_screen.to(change_name)
@@ -197,6 +198,9 @@ class SeriesManager(StateMachine):
 
         # Error check to make sure it is int here
         self.interface_mode = InterfaceMode(int(interface_input))
+    
+    def on_quit_game(self):
+        self.interface_mode = InterfaceMode.QUIT_GAME
     
 
     def on_p_change_tile(self, direction):

@@ -19,19 +19,15 @@ if __name__ == "__main__":
 
     # This is the home MENU loop
     while (seriesmanager.interface_mode != InterfaceMode.QUIT_GAME):
+        logger.info(f"Entering game mode: {seriesmanager.interface_mode}")
 
         if (seriesmanager.interface_mode == InterfaceMode.SIMPLE):
-            # Await command
             enter_simple_mode(seriesmanager)
-
         if (seriesmanager.interface_mode == InterfaceMode.NCURSES):
-            logger.info("Ncurses Game Mode")
-
             enter_ncurses_mode_wrapper(seriesmanager)
-        
         if (seriesmanager.interface_mode == InterfaceMode.GTK_GUI):
             logger.info("Sorry GTK not yet implemented")
             interface_mode = InterfaceMode.SIMPLE
-            # start GUI
         
     logger.info("Quitting Game")
+    print("Thanks for playing!")
