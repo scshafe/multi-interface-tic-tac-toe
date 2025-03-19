@@ -63,6 +63,7 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     logger.info(f"direction entered: {direction}")
 
     if direction != SelectedTileDirections.INVALID:
+        logger.info(f"changed selected tile: {direction}")
         seriesmanager.p_change_tile(direction)
     elif commandkey == 10: # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
         logger.info("key is KEY_ENTER")
