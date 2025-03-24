@@ -48,6 +48,7 @@ def direction_from_commandkey(commandkey):
 def run_player_turn(stdscr, seriesmanager, player_turn):
     logger.info(f"entering run_player_turn [{player_turn}]")
     stdscr.clear()
+    stdscr.refresh()
 
     board = curses.newwin(34, 26, 0,0)
     board.keypad(True)
