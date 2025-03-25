@@ -18,7 +18,7 @@ SQUARE_HEIGHT = SQUARE_HEIGHT_ROOT * MULTIPLIER
 
 def print_menu_screen(seriesmanager):
     
-    return "Welcome to Tic-Tac-Toe!\n\n[P] to play\n[C] to change names\n[I] change interfaces"
+    return f"Welcome to Tic-Tac-Toe!\n\nPlayer 1: {seriesmanager.p1_name}\nPlayer 2: {seriesmanager.p2_name}\n\n[P] to play\n[C] to change names\n[I] change interfaces"
 
 
 blank = ["      ",
