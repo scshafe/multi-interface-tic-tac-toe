@@ -103,7 +103,7 @@ def change_name_screen(stdscr, seriesmanager):
     player_num = stdscr.getkey()
     stdscr.addstr(f"\nchanging name for {seriesmanager.p1_name if player_num == "1" else seriesmanager.p2_name}: ")
     curses.echo()
-    new_name = stdscr.getstr()
+    new_name = stdscr.getstr().decode('utf-8')
     curses.noecho()
 
     seriesmanager.change_new_name(player_num, new_name)
