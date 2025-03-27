@@ -50,7 +50,14 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     stdscr.clear()
     stdscr.refresh()
 
-    board = curses.newwin(34, 26, 0,0)
+    height, width = stdscr.getmaxyx()
+    logger.info(f"height: {height}\nwidth: {width}")
+    
+    height_border = int((height - 34) / 2)
+    width_border = int((width - 26) / 2)
+
+
+    board = curses.newwin(34, 26, height_border, width_border)
     board.keypad(True)
 
     board_string = build_board_string(seriesmanager)
