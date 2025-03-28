@@ -23,7 +23,7 @@ def run_menu_screen_input(stdscr, seriesmanager):
         case "p":
             seriesmanager.play_game()
         case "c":
-            seriesmanager.change_names()
+            seriesmanager.change_player_name()
         case "i":
             seriesmanager.change_interface()
         case "q":
@@ -104,16 +104,44 @@ def run_interface_screen(stdscr, seriesmanager):
     commandkey = stdscr.getkey()
     seriesmanager.interface_selected(commandkey)
 
-def change_name_screen(stdscr, seriesmanager):
+def select_change_name_screen(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"which player would you like to change the name for? [1/2]")
     player_num = stdscr.getkey()
     stdscr.addstr(f"\nchanging name for {seriesmanager.p1_name if player_num == "1" else seriesmanager.p2_name}: ")
+    player_num = True if player_num == "1" else False
+    seriesmanager.select_player_name_change(player_num)
+
+
+def enter_change_name_screen(stdscr, seriesmanager):
+    stdscr.clear()
+    stdscr.addstr(f"Changing name to: ")
     curses.echo()
     new_name = stdscr.getstr().decode('utf-8')
     curses.noecho()
 
-    seriesmanager.change_new_name(player_num, new_name)
+    seriesmanager.enter_player_name_change(new_name)
+
+
+def paint_ncurses_screen(stdscr, seriesmanager):
+   current_state = seriesmanager.current_state
+   match current_state:
+        case SeriesManager.menu_screen:
+            run_menu_screen_input(stdscr, seriesmanager)
+        case SeriesManager.interface_screen:
+            run_interface_screen(stdscr, seriesmanager)
+        case SeriesManager.select_change_name:
+            select_change_name_screen(stdscr, seriesmanager)
+        case SeriesManager.enter_change_name:
+            enter_change_name_screen(stdscr, seriesmanager)
+        case SeriesManager.p1_turn:
+            run_player_turn(stdscr, seriesmanager, 1)
+        case SeriesManager.p2_turn:
+            run_player_turn(stdscr, seriesmanager, 2)
+        case SeriesManager.game_end:
+            run_game_end_input(stdscr, seriesmanager)
+        case SeriesManager.match_end:
+            run_match_end_input(stdscr, seriesmanager)
 
 
 
@@ -121,24 +149,7 @@ def enter_ncurses_mode(stdscr, seriesmanager):
     stdscr.keypad(True)
         
     while (seriesmanager.interface_mode == InterfaceMode.NCURSES):
-        
-        current_state = seriesmanager.current_state
-
-        match current_state:
-            case SeriesManager.menu_screen:
-                run_menu_screen_input(stdscr, seriesmanager)
-            case SeriesManager.interface_screen:
-                run_interface_screen(stdscr, seriesmanager)
-            case SeriesManager.change_name:
-                change_name_screen(stdscr, seriesmanager)
-            case SeriesManager.p1_turn:
-                run_player_turn(stdscr, seriesmanager, 1)
-            case SeriesManager.p2_turn:
-                run_player_turn(stdscr, seriesmanager, 2)
-            case SeriesManager.game_end:
-                run_game_end_input(stdscr, seriesmanager)
-            case SeriesManager.match_end:
-                run_match_end_input(stdscr, seriesmanager)
+        paint_ncurses_screen(stdscr, seriesmanager)        
 
 
 

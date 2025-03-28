@@ -29,7 +29,8 @@ class SeriesManager(StateMachine):
 
     menu_screen = State(initial=True)
     interface_screen = State()
-    change_name = State()
+    select_change_name = State()
+    enter_change_name = State()
     p1_turn = State()
     p2_turn = State()
     game_end = State()
@@ -39,8 +40,9 @@ class SeriesManager(StateMachine):
     quit_game = menu_screen.to(menu_screen)
     interface_selected = interface_screen.to(menu_screen)
 
-    change_names = menu_screen.to(change_name)
-    change_new_name = change_name.to(menu_screen)
+    change_player_name = menu_screen.to(select_change_name)
+    select_player_name_change = select_change_name.to(enter_change_name)
+    enter_player_name_change = enter_change_name.to(menu_screen)
     play_game = menu_screen.to(p1_turn)
 
     p_change_tile = p1_turn.to(p1_turn) | p2_turn.to(p2_turn)
@@ -178,14 +180,18 @@ class SeriesManager(StateMachine):
                 return True
             return False
 
-    def on_change_new_name(self, player_num, new_player_name):
-        if player_num != '1' and player_num != '2':
+    def on_select_player_name_change(self, player_num):
+        # should be True for player 1, False for player 2 
+        if player_num != True and player_num != False:
             logger.error(f"Error: incorrect player_num entered: {player_num}")
-            return False
-        old_name = self.p1_name if player_num == '1' else self.p2_name
+        self.player_name_change = player_num
+
+    def on_enter_player_name_change(self, new_player_name):
+        old_name = self.p1_name if self.player_name_change else self.p2_name
+        player_num = 1 if self.player_name_change else 2
         logger.info(f"changing name for player_num: {player_num} from {old_name} to {new_player_name}")
         
-        if player_num == '1':
+        if self.player_name_change:
             self.p1_name = new_player_name
         else:
             self.p2_name = new_player_name
