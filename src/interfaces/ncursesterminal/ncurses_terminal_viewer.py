@@ -8,6 +8,20 @@ from src.game.series_manager import InterfaceMode, SelectedTileDirections, Serie
 from src.logging.my_logging import logger
 
 
+def get_valid_input(stdscr, validator):
+    inputkey = stdscr.getch()
+    
+    if inputkey == curses.KEY_RESIZE:
+        return False, inputkey
+    elif inputkey < 256:
+        inputkey = chr(inputkey)
+        return validator(inputkey), inputkey
+    else:
+        return validator(inputkey), inputkey
+
+
+def menu_screen_validator(key):
+    return key == "p" or key == "c" or key == "i" or key == "q"
 
 
 def run_menu_screen_input(stdscr, seriesmanager):
@@ -16,8 +30,8 @@ def run_menu_screen_input(stdscr, seriesmanager):
     
     stdscr.clear()
     stdscr.addstr(print_menu_screen(seriesmanager))
-    stdscr.refresh()
-    commandkey = stdscr.getkey()
+    
+    is_valid, commandkey = get_valid_input(stdscr, menu_screen_validator)
     commandkey = commandkey.lower()
     match commandkey:
         case "p":
