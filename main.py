@@ -6,9 +6,9 @@ from src.game.series_manager import SeriesManager, InterfaceMode
 
 # interface imports
 from src.interfaces.simple_terminal.simple_terminal_viewer import enter_simple_mode
-from src.interfaces.ncursesterminal.ncurses_terminal_viewer import enter_ncurses_mode_wrapper
+from src.interfaces.ncursesterminal.terminal_viewer import enter_ncurses_mode_wrapper
 
-from src.interfaces.ncursesterminal.ncurses_printer import *
+from src.interfaces.ncursesterminal.printers import *
 
 from src.logging.my_logging import logger
 

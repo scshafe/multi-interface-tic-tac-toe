@@ -2,7 +2,8 @@
 
 
 import curses
-from src.interfaces.ncursesterminal.ncurses_printer import *
+from src.interfaces.ncursesterminal.printers import *
+from src.interfaces.ncursesterminal.input_validators import *
 from src.game.series_manager import InterfaceMode, SelectedTileDirections, SeriesManager
 
 from src.logging.my_logging import logger
@@ -19,9 +20,6 @@ def get_valid_input(stdscr, validator):
     else:
         return validator(inputkey), inputkey
 
-
-def menu_screen_validator(key):
-    return key == "p" or key == "c" or key == "i" or key == "q"
 
 
 def run_menu_screen_input(stdscr, seriesmanager):
