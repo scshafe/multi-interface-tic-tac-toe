@@ -13,11 +13,14 @@ def get_valid_input(stdscr, validator):
     inputkey = stdscr.getch()
     
     if inputkey == curses.KEY_RESIZE:
+        logger.info("Resizing")
         return False, inputkey
     elif inputkey < 256:
+        logger.info(f"Char entered: {chr(inputkey)} from input: {inputkey}")
         inputkey = chr(inputkey)
         return validator(inputkey), inputkey
     else:
+        logger.info(f"Special key: {inputkey}")
         return validator(inputkey), inputkey
 
 
@@ -30,6 +33,8 @@ def run_menu_screen_input(stdscr, seriesmanager):
     stdscr.addstr(print_menu_screen(seriesmanager))
     
     is_valid, commandkey = get_valid_input(stdscr, menu_screen_validator)
+    if not is_valid:
+        return
     commandkey = commandkey.lower()
     match commandkey:
         case "p":
@@ -40,9 +45,8 @@ def run_menu_screen_input(stdscr, seriesmanager):
             seriesmanager.change_interface()
         case "q":
             seriesmanager.quit_game()
-
         case _:
-            return
+            logger.error("run_menu_screen_input case _ reached")
 
 
 def direction_from_commandkey(commandkey):
@@ -76,7 +80,8 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     board.addstr(board_string)
     board.refresh()
     
-    commandkey = board.getch()
+    is_valid, commandkey = get_valid_input(board, run_player_turn_validator)
+#    commandkey = board.getch()
     logger.info(f"{player_turn} entered input: {commandkey}")
 
     direction = direction_from_commandkey(commandkey)
@@ -85,9 +90,11 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     if direction != SelectedTileDirections.INVALID:
         logger.info(f"changed selected tile: {direction}")
         seriesmanager.p_change_tile(direction)
-    elif commandkey == 10: # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
+    elif commandkey == chr(10): # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
         logger.info("key is KEY_ENTER")
         seriesmanager.p_move('P')
+    else:
+        logger.info(f"invalid player_turn input: {commandkey}")
 
 def run_game_end_input(stdscr, seriesmanager):
     stdscr.clear()
