@@ -9,19 +9,16 @@ from src.game.series_manager import InterfaceMode, SelectedTileDirections, Serie
 from src.logging.my_logging import logger
 
 
-def get_valid_input(stdscr, validator):
+def get_valid_input(stdscr, validator, modifier=None):
     inputkey = stdscr.getch()
-    
+    output = inputkey if modifier == None else modifier(inputkey)
+
     if inputkey == curses.KEY_RESIZE:
         logger.info("Resizing")
-        return False, inputkey
-    elif inputkey < 256:
-        logger.info(f"Char entered: {chr(inputkey)} from input: {inputkey}")
-        inputkey = chr(inputkey)
-        return validator(inputkey), inputkey
+        return False, output
     else:
         logger.info(f"Special key: {inputkey}")
-        return validator(inputkey), inputkey
+        return validator(inputkey), output
 
 
 
@@ -32,7 +29,7 @@ def run_menu_screen_input(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(print_menu_screen(seriesmanager))
     
-    is_valid, commandkey = get_valid_input(stdscr, menu_screen_validator)
+    is_valid, commandkey = get_valid_input(stdscr, menu_screen_validator, chr)
     if not is_valid:
         return
     commandkey = commandkey.lower()
@@ -61,26 +58,31 @@ def direction_from_commandkey(commandkey):
     return SelectedTileDirections.INVALID
 
 
-def run_player_turn(stdscr, seriesmanager, player_turn):
-    logger.info(f"entering run_player_turn [{player_turn}]")
-    stdscr.clear()
-    stdscr.refresh()
-
+def get_board(stdscr):
     height, width = stdscr.getmaxyx()
     logger.info(f"height: {height}\nwidth: {width}")
     
     height_border = int((height - 34) / 2)
     width_border = int((width - 26) / 2)
 
-
     board = curses.newwin(34, 26, height_border, width_border)
     board.keypad(True)
+    return board
+
+def run_player_turn(stdscr, seriesmanager, player_turn):
+    logger.info(f"entering run_player_turn [{player_turn}]")
+    stdscr.clear()
+    stdscr.refresh()
+    board = get_board(stdscr)
+
 
     board_string = build_board_string(seriesmanager)
     board.addstr(board_string)
     board.refresh()
     
     is_valid, commandkey = get_valid_input(board, run_player_turn_validator)
+    if not is_valid:
+        return
 #    commandkey = board.getch()
     logger.info(f"{player_turn} entered input: {commandkey}")
 
@@ -90,7 +92,7 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     if direction != SelectedTileDirections.INVALID:
         logger.info(f"changed selected tile: {direction}")
         seriesmanager.p_change_tile(direction)
-    elif commandkey == chr(10): # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
+    elif commandkey == 10: # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
         logger.info("key is KEY_ENTER")
         seriesmanager.p_move('P')
     else:
