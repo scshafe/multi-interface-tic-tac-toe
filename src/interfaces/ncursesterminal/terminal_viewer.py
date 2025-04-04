@@ -105,7 +105,7 @@ def run_game_end_input(stdscr, seriesmanager):
     stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins! ")
     stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
     stdscr.addstr("   press any key to play the next round.")
-    
+
     stdscr.getch()
     seriesmanager.next_game()
 
@@ -124,7 +124,9 @@ def run_interface_screen(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"which interface would you like to use?\n[1] Simple\n[2] NCurses\n[3] GTK Gui\n[4] Quit")
 
-    commandkey = stdscr.getkey()
+    commandkey = get_valid_input(stdscr, interface_screen_options)
+
+    #commandkey = stdscr.getkey()
     seriesmanager.interface_selected(commandkey)
 
 def select_change_name_screen(stdscr, seriesmanager):
