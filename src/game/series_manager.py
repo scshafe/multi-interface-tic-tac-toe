@@ -187,15 +187,19 @@ class SeriesManager(StateMachine):
             logger.error(f"Error: incorrect player_num entered: {player_num}")
         self.player_name_change = player_num
 
-    def on_enter_player_name_change(self, new_player_name):
+    def add_letter_to_name_change_buffer(self, next_char):
+        self.name_change_buffer = self.name_change_buffer + next_char
+
+    def on_enter_player_name_change(self):
         old_name = self.p1_name if self.player_name_change else self.p2_name
         player_num = 1 if self.player_name_change else 2
-        logger.info(f"changing name for player_num: {player_num} from {old_name} to {new_player_name}")
+        logger.info(f"changing name for player_num: {player_num} from {old_name} to {self.name_change_buffer}")
         
         if self.player_name_change:
-            self.p1_name = new_player_name
+            self.p1_name = self.name_change_buffer
         else:
-            self.p2_name = new_player_name
+            self.p2_name = self.name_change_buffer
+        self.name_change_buffer = ""
         return True
 
     def p1_goes_first(self):

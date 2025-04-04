@@ -146,11 +146,18 @@ def select_change_name_screen(stdscr, seriesmanager):
 def enter_change_name_screen(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"Changing name to: {seriesmanager.name_change_buffer}")
-    curses.echo()
-    new_name = stdscr.getstr().decode('utf-8')
-    curses.noecho()
+    #curses.echo()
+    is_valid, next_char = get_valid_input(stdscr, enter_change_name_screen_options)
+    if not is_valid:
+        return
+    elif next_char == 10:
+        seriesmanager.enter_player_name_change()
+    else:
+        seriesmanager.add_letter_to_name_change_buffer(next_char)
+    #new_name = stdscr.getstr().decode('utf-8')
+    #curses.noecho()
 
-    seriesmanager.enter_player_name_change(new_name)
+    #seriesmanager.enter_player_name_change(new_name)
 
 
 def paint_ncurses_screen(stdscr, seriesmanager):

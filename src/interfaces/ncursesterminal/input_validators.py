@@ -9,7 +9,7 @@ interface_screen_options = {1 , 2, 3, 4}
 
 select_change_name_screen_options = {"1", "2"}
 
-enter_change_name_screen_options = set(string.ascii_lowercase)
+enter_change_name_screen_options = set(string.ascii_lowercase).union({10})
 
 def validator(key, input_options):
     return key in input_options
