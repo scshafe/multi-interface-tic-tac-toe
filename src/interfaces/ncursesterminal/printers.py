@@ -43,6 +43,46 @@ cross = ["      ",
          "      "]
 
 
+# SIZING RULES: each size up (controlled by hitting '+') will result in a change in n
+# n is the underlying size from which characters and spaces are calculated
+
+# O will be given by:
+
+
+
+# X will be given by:
+
+
+# 3x3    2x2
+#  _
+# / \    \/
+# \_/    /\
+
+# 1 taller results in +2 to both dimensions
+#  5x5      4x4
+#   _
+#  / \    \  /
+# /   \    \/
+# \   /    /\
+#  \_/    /  \
+
+# 1 wider results in +1 just to width
+#   5x6        4x5
+#    __
+#   /  \    \   /
+#  /    \    \_/
+#  \    /    / \
+#   \__/    /   \
+
+# 1 taller results in +2 to both dimensions
+#   7x8        6x6
+#    __
+#   /  \    \     /
+#  /    \    \   /
+# /      \    \_/
+# \      /    / \
+#  \    /    /   \
+#   \__/    /     \
 
 
 def build_board_string(seriesmanager, game_won=False, flashing=False):
