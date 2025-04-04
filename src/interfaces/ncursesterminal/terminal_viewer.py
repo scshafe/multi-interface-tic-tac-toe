@@ -81,9 +81,7 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     is_valid, commandkey = get_valid_input(board, run_player_turn_options)
     if not is_valid:
         return
-    if commandkey == "m":
-        seriesmanager.open_menu()
-        
+            
 #    commandkey = board.getch()
     logger.info(f"{player_turn} entered input: {commandkey}")
 
@@ -96,8 +94,11 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     elif commandkey == 10: # 10 is used for Keyboard Enter whereas KEY_ENTER is for numpad enter
         logger.info("key is KEY_ENTER")
         seriesmanager.p_move('P')
+    elif commandkey == "m":
+        seriesmanager.open_menu()
     else:
         logger.info(f"invalid player_turn input: {commandkey}")
+
 
 def run_game_end_input(stdscr, seriesmanager):
     stdscr.clear()
