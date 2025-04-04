@@ -17,8 +17,8 @@ def get_valid_input(stdscr, screen_options):
     elif validator(inputkey, screen_options):
         logger.info(f"Special key: {inputkey}")
         return True, inputkey
-    elif validator(chr(inputkey), screen_options):
-        return True, chr(inputkey)
+    elif validator(chr(inputkey).lower(), screen_options):
+        return True, chr(inputkey).lower()
     return False, inputkey
 
 def run_menu_screen_input(stdscr, seriesmanager):
@@ -31,7 +31,6 @@ def run_menu_screen_input(stdscr, seriesmanager):
     is_valid, commandkey = get_valid_input(stdscr, menu_screen_options)
     if not is_valid:
         return
-    commandkey = commandkey.lower()
     match commandkey:
         case "p":
             seriesmanager.play_game()
