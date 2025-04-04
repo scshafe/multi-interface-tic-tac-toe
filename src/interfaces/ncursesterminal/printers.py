@@ -45,17 +45,16 @@ cross = ["      ",
 
 
 
-
-def build_board_string(seriesmanager):
+def build_board_string(seriesmanager, game_won=False, flashing=False):
 
     output = ""
 
     for row in range(3):
         for square_height_mod in range(len(circle)+2):
             for col in range(3):
-
+    
                 if square_height_mod == 0 or square_height_mod == (len(circle) + 1):
-                    if seriesmanager.selected_tile_map[row][col] == True:
+                    if not game_won and seriesmanager.selected_tile_map[row][col] == True:
                         output = output + "--------"
                     else:
                         output = output + "        "
@@ -63,9 +62,10 @@ def build_board_string(seriesmanager):
                 
                 else:
                     square_height = square_height_mod - 1
-                    output = output + '|' if seriesmanager.selected_tile_map[row][col] else output + ' '
+                    tmp_border = '|' if seriesmanager.selected_tile_map[row][col] and not game_won else ' '
+                    output = output + tmp_border
 
-                    if seriesmanager.board[row][col] == Tile.BLANK:
+                    if seriesmanager.board[row][col] == Tile.BLANK or (flashing == True and seriesmanager.win[row][col] == True):
                         output = output + blank[square_height]
                     elif seriesmanager.board[row][col] == Tile.P1:
                         output = output + cross[square_height]
@@ -75,7 +75,8 @@ def build_board_string(seriesmanager):
                         print("ERROR!!!")
                         # quit()
                 
-                    output = output + '|' if seriesmanager.selected_tile_map[row][col] else output + ' '
+                    output = output + tmp_border
+
                 
                 if col < 2:
                     output = output + '|'     

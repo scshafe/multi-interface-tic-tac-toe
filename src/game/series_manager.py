@@ -99,6 +99,7 @@ class SeriesManager(StateMachine):
 
         if not board_contains_3_in_a_row(temp_board):
             return False
+        self.win = board_contains_3_in_a_row(temp_board)
         return True
     
     def on_enter_game_end(self):

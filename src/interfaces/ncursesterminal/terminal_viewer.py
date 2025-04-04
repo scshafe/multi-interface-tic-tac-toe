@@ -1,6 +1,6 @@
 
 
-
+import time
 import curses
 from src.interfaces.ncursesterminal.printers import *
 from src.interfaces.ncursesterminal.input_validators import *
@@ -105,11 +105,20 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
 
 def run_game_end_input(stdscr, seriesmanager):
     stdscr.clear()
-    stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins! ")
-    stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
-    stdscr.addstr("   press any key to play the next round.")
-
-    stdscr.getch()
+    flashing_counter = 6
+    while flashing_counter > 0:
+        board = get_board(stdscr)
+        board_string = build_board_string(seriesmanager, game_won=True, flashing=flashing_counter % 2 == 0)
+        board.addstr(board_string)
+        #stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins! ")
+        #stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
+        #stdscr.addstr("   press any key to play the next round.")
+        board.refresh()
+        time.sleep((0.25 if flashing_counter % 2 == 0 else 0.75))
+        flashing_counter -= 1
+    board.getch()
+   
+    #stdscr.getch()
     seriesmanager.next_game()
 
 
