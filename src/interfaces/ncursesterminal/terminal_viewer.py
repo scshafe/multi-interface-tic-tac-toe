@@ -9,18 +9,17 @@ from src.game.series_manager import InterfaceMode, SelectedTileDirections, Serie
 from src.logging.my_logging import logger
 
 
-def get_valid_input(stdscr, validator, modifier=None):
+def get_valid_input(stdscr, screen_options):
     inputkey = stdscr.getch()
-    output = inputkey if modifier == None else modifier(inputkey)
-
+    
     if inputkey == curses.KEY_RESIZE:
         logger.info("Resizing")
-        return False, output
-    else:
+    elif validator(inputkey, screen_options):
         logger.info(f"Special key: {inputkey}")
-        return validator(inputkey), output
-
-
+        return True, inputkey
+    elif validator(chr(inputkey), screen_options):
+        return True, chr(inputkey)
+    return False, inputkey
 
 def run_menu_screen_input(stdscr, seriesmanager):
 
@@ -29,7 +28,7 @@ def run_menu_screen_input(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(print_menu_screen(seriesmanager))
     
-    is_valid, commandkey = get_valid_input(stdscr, menu_screen_validator, chr)
+    is_valid, commandkey = get_valid_input(stdscr, menu_screen_options)
     if not is_valid:
         return
     commandkey = commandkey.lower()
@@ -80,9 +79,12 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     board.addstr(board_string)
     board.refresh()
     
-    is_valid, commandkey = get_valid_input(board, run_player_turn_validator)
+    is_valid, commandkey = get_valid_input(board, run_player_turn_options)
     if not is_valid:
         return
+    if commandkey == "m":
+        seriesmanager.open_menu()
+        
 #    commandkey = board.getch()
     logger.info(f"{player_turn} entered input: {commandkey}")
 
