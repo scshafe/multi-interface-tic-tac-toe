@@ -78,6 +78,7 @@ class SeriesManager(StateMachine):
         self.selected_tile_map[0][0] = True
         self.p1_name = p1_name
         self.p2_name = p2_name
+        self.name_change_buffer = ""
         self.p1_score = 0
         self.p2_score = 0
         self.play_to_total = 2

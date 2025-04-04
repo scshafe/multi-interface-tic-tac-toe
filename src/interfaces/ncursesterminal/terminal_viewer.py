@@ -18,7 +18,10 @@ def get_valid_input(stdscr, screen_options):
         logger.info(f"Special key: {inputkey}")
         return True, inputkey
     elif validator(chr(inputkey).lower(), screen_options):
+        logger.info(f"Chr key: {chr(inputkey)}")
         return True, chr(inputkey).lower()
+    else:
+        logger.error(f"Invalid input. Raw: {inputkey}, chr form: {chr(inputkey)}")
     return False, inputkey
 
 def run_menu_screen_input(stdscr, seriesmanager):
@@ -132,7 +135,9 @@ def run_interface_screen(stdscr, seriesmanager):
 def select_change_name_screen(stdscr, seriesmanager):
     stdscr.clear()
     stdscr.addstr(f"which player would you like to change the name for? [1/2]")
-    player_num = stdscr.getkey()
+    is_valid, player_num = get_valid_input(stdscr, select_change_name_screen_options)
+    if not is_valid:
+        return
     stdscr.addstr(f"\nchanging name for {seriesmanager.p1_name if player_num == "1" else seriesmanager.p2_name}: ")
     player_num = True if player_num == "1" else False
     seriesmanager.select_player_name_change(player_num)
@@ -140,7 +145,7 @@ def select_change_name_screen(stdscr, seriesmanager):
 
 def enter_change_name_screen(stdscr, seriesmanager):
     stdscr.clear()
-    stdscr.addstr(f"Changing name to: ")
+    stdscr.addstr(f"Changing name to: {seriesmanager.name_change_buffer}")
     curses.echo()
     new_name = stdscr.getstr().decode('utf-8')
     curses.noecho()
