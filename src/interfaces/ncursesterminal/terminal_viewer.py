@@ -121,8 +121,7 @@ def display_flashing_board(stdscr, seriesmanager, message_list):
 
 def run_game_end_input(stdscr, seriesmanager):
     stdscr.clear()
-    display_flashing_board(stdscr, seriesmanager, ["game won"]
-    board.getch()
+    display_flashing_board(stdscr, seriesmanager, ["game won"])
    
     #stdscr.getch()
     seriesmanager.next_game()
@@ -130,12 +129,11 @@ def run_game_end_input(stdscr, seriesmanager):
 
 def run_match_end_input(stdscr, seriesmanager):
     stdscr.clear()
-    display_flashing_board(stdscr, seriesmanager, ["match won"]
+    display_flashing_board(stdscr, seriesmanager, ["match won"])
     #stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins the series! ")
     #stdscr.addstr(f"the final score is: {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
     #stdscr.addstr("press any key to return to home menu.")
 
-    stdscr.getch()
     seriesmanager.play_another_match()
     
     
