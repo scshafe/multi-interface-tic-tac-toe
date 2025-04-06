@@ -151,9 +151,9 @@ def create_circle_piece(size):
         #top right
         circle[i][it_right] = '\\'
         # bottom left
-        circle[size-1-i][it_left] = '\\'
+        circle[len(circle)-1-i][it_left] = '\\'
         # bottom right
-        circle[size-1-i][it_right] = '/'
+        circle[len(circle)-1-i][it_right] = '/'
     return circle      
 
 
