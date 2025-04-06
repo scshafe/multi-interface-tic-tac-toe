@@ -65,8 +65,11 @@ def get_board(stdscr):
     
     height_border = int((height - 34) / 2)
     width_border = int((width - 26) / 2)
+    
 
-    board = curses.newwin(34, 26, height_border, width_border)
+    #board = curses.newwin(34, 26, height_border, width_border)
+    board = curses.newwin(21, 20, height_border, width_border)
+
     board.keypad(True)
     return board
 
@@ -77,7 +80,7 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     board = get_board(stdscr)
 
 
-    board_string = build_board_string(seriesmanager)
+    board_string = build_sized_board_string(seriesmanager)
     board.addstr(board_string)
     board.refresh()
     
