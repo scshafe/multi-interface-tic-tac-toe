@@ -78,8 +78,6 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
     stdscr.clear()
     stdscr.refresh()
     board = get_board(stdscr)
-
-
     board_string = build_sized_board_string(seriesmanager)
     board.addstr(board_string)
     board.refresh()
@@ -106,12 +104,11 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
         logger.info(f"invalid player_turn input: {commandkey}")
 
 
-def run_game_end_input(stdscr, seriesmanager):
-    stdscr.clear()
+def display_flashing_board(stdscr, seriesmanager, message_list):
     flashing_counter = 6
     while flashing_counter > 0:
         board = get_board(stdscr)
-        board_string = build_board_string(seriesmanager, game_won=True, flashing=flashing_counter % 2 == 0)
+        board_string = build_sized_board_string(seriesmanager, game_won=True, flashing=flashing_counter % 2 == 0)
         board.addstr(board_string)
         #stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins! ")
         #stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
@@ -120,6 +117,12 @@ def run_game_end_input(stdscr, seriesmanager):
         time.sleep((0.25 if flashing_counter % 2 == 0 else 0.75))
         flashing_counter -= 1
     board.getch()
+
+
+def run_game_end_input(stdscr, seriesmanager):
+    stdscr.clear()
+    display_flashing_board(stdscr, seriesmanager, ["game won"]
+    board.getch()
    
     #stdscr.getch()
     seriesmanager.next_game()
@@ -127,9 +130,10 @@ def run_game_end_input(stdscr, seriesmanager):
 
 def run_match_end_input(stdscr, seriesmanager):
     stdscr.clear()
-    stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins the series! ")
-    stdscr.addstr(f"the final score is: {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
-    stdscr.addstr("press any key to return to home menu.")
+    display_flashing_board(stdscr, seriesmanager, ["match won"]
+    #stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins the series! ")
+    #stdscr.addstr(f"the final score is: {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
+    #stdscr.addstr("press any key to return to home menu.")
 
     stdscr.getch()
     seriesmanager.play_another_match()
