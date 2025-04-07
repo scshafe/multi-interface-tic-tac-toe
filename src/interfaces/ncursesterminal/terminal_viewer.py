@@ -8,6 +8,16 @@ from src.game.series_manager import InterfaceMode, SelectedTileDirections, Serie
 
 from src.logging.my_logging import logger
 
+# center many lines of text from a list each on their own line (with a 2 space y-pad in the beginning)
+def center_lines_of_text(window, text):
+    height, width = window.getmaxyx()
+    
+    y = 2
+    for line in text:
+        x = width // 2 - len(line) // 2
+        window.addstr(y, x, line)
+        y+=1
+    window.refresh()
 
 def get_valid_input(stdscr, screen_options):
     inputkey = stdscr.getch()
@@ -69,19 +79,22 @@ def get_board(stdscr):
 
     #board = curses.newwin(34, 26, height_border, width_border)
     board = curses.newwin(21, 20, height_border, width_border)
-
     board.keypad(True)
-    return board
+
+    message_box = curses.newwin(10, width, 21 + height_border + 1, 0)
+    return board, message_box
 
 def run_player_turn(stdscr, seriesmanager, player_turn):
     logger.info(f"entering run_player_turn [{player_turn}]")
     stdscr.clear()
     stdscr.refresh()
-    board = get_board(stdscr)
+    board, message_box = get_board(stdscr)
     board_string = build_sized_board_string(seriesmanager)
     board.addstr(board_string)
     board.refresh()
-    
+
+    text = ["use [arrows] to move selected tile", "press [enter] to place piece", "press [m] to return to the menu screen"]
+    center_lines_of_text(message_box, text)
     is_valid, commandkey = get_valid_input(board, run_player_turn_options)
     if not is_valid:
         return
@@ -107,9 +120,10 @@ def run_player_turn(stdscr, seriesmanager, player_turn):
 def display_flashing_board(stdscr, seriesmanager, message_list):
     flashing_counter = 6
     while flashing_counter > 0:
-        board = get_board(stdscr)
+        board, message_box = get_board(stdscr)
         board_string = build_sized_board_string(seriesmanager, game_won=True, flashing=flashing_counter % 2 == 0)
         board.addstr(board_string)
+        center_lines_of_text(message_box, message_list)
         #stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins! ")
         #stdscr.addstr(f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
         #stdscr.addstr("   press any key to play the next round.")
@@ -121,7 +135,8 @@ def display_flashing_board(stdscr, seriesmanager, message_list):
 
 def run_game_end_input(stdscr, seriesmanager):
     stdscr.clear()
-    display_flashing_board(stdscr, seriesmanager, ["game won"])
+    messages = [f"{seriesmanager.most_recent_game_winner()} wins! ", f"the score is now {seriesmanager.p1_score}-{seriesmanager.p2_score}\n"]
+    display_flashing_board(stdscr, seriesmanager, messages)
    
     #stdscr.getch()
     seriesmanager.next_game()
@@ -129,7 +144,8 @@ def run_game_end_input(stdscr, seriesmanager):
 
 def run_match_end_input(stdscr, seriesmanager):
     stdscr.clear()
-    display_flashing_board(stdscr, seriesmanager, ["match won"])
+    messages = [f"{seriesmanager.most_recent_game_winner()} wins the series! ", f"the final score is: {seriesmanager.p1_score}-{seriesmanager.p2_score}\n"]
+    display_flashing_board(stdscr, seriesmanager, messages)
     #stdscr.addstr(f"{seriesmanager.most_recent_game_winner()} wins the series! ")
     #stdscr.addstr(f"the final score is: {seriesmanager.p1_score}-{seriesmanager.p2_score}\n")
     #stdscr.addstr("press any key to return to home menu.")
