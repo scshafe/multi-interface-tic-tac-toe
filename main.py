@@ -25,7 +25,7 @@ if __name__ == "__main__":
             enter_simple_mode(seriesmanager)
         if (seriesmanager.interface_mode == InterfaceMode.NCURSES):
             curse_gui = CursesGUI(seriesmanager, size=3)
-            curse_gui.enter_ncurses_mode_wrapper(seriesmanager)
+            curse_gui.enter_ncurses_mode_wrapper()
             #enter_ncurses_mode_wrapper(seriesmanager)
         if (seriesmanager.interface_mode == InterfaceMode.GTK_GUI):
             logger.info("Sorry GTK not yet implemented")
