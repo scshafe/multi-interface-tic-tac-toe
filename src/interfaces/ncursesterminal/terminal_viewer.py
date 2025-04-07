@@ -11,9 +11,11 @@ from src.logging.my_logging import logger
 
 class CursesGUI:
     def __init__(self, seriesmanager, size=2):
+
         self.size = size
         self.tile_height = (size*2)+2
-
+        #self.height is height of screen
+        #self.width is width of screen
 
     # center many lines of text from a list each on their own line (with a 2 space y-pad in the beginning)
     def center_lines_of_text(self, window, text):
